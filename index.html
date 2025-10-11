@@ -1134,5 +1134,132 @@
             };
         }
     </script>
+    
+    <script>
+function scrollToProducts() {
+  const prodSection = document.getElementById('categories');
+  if (prodSection) {
+    prodSection.scrollIntoView({ behavior: "smooth" });
+  }
+}
+document.querySelectorAll('.shop-now-btn').forEach(btn =>
+  btn.addEventListener('click', scrollToProducts)
+);
+</script>
+<script>
+let cart = [];
+function addToCart(sku) {
+  // Find product logic here
+  // ... code for adding item (use your product object structure)
+  updateCartButton();
+  showNotification("Added to cart!");
+}
+
+function updateCartButton() {
+  const cartButton = document.getElementById('cart-button');
+  const cartCount = document.getElementById('cart-count');
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  if (totalItems > 0) {
+    cartButton.style.display = 'inline-block';
+    cartCount.textContent = totalItems;
+  } else {
+    cartButton.style.display = 'none';
+  }
+}
+function showNotification(message) {
+  const notification = document.createElement('div');
+  notification.style.cssText = "position:fixed;top:100px;right:20px;background:linear-gradient(45deg,#28a745,#20c997);color:white;padding:15px 25px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:1000;font-weight:bold";
+  notification.textContent = message;
+  document.body.appendChild(notification);
+  setTimeout(() => document.body.removeChild(notification), 2000);
+}
+</script>
+<script>
+function openLuckyScoopBuilder(scoops, price) {
+  const colors = ["Pink", "Blue", "Purple", "Pastel", "Rainbow", "Black", "White", "Gold/Silver", "No preference"];
+  const categories = ["Stationery", "Hair Accessories", "Jewelry", "Bags Pouches", "Mixed Surprise"];
+  let selectedColor = "";
+  let selectedCategories = [];
+  // Create modal
+  const modal = document.createElement('div');
+  modal.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;display:flex;justify-content:center;align-items:center;padding:20px;";
+  modal.innerHTML = `
+    <div class="scoop-builder" style="max-width:700px;max-height:90vh;overflow-y:auto;background:white;padding:40px;border-radius:25px;box-shadow:0 15px 40px rgba(0,0,0,0.1);">
+      <h2 style="text-align:center;color:#d63384;font-family:'Brush Script MT',cursive;margin-bottom:20px;">
+        Build Your Scoops (${scoops} - ₹${price})
+      </h2>
+      <div style="margin-bottom:30px;">
+        <h3 style="color:#d63384;margin-bottom:15px;">Choose Color Preference</h3>
+        <div class="color-options" style="display:flex;flex-wrap:wrap;gap:15px;">
+          ${colors.map((color) =>
+            `<div class="color-option" data-color="${color}" style="background:#f8f9fa;padding:15px;border-radius:15px;text-align:center;cursor:pointer;border:2px solid transparent;">${color}</div>`
+          ).join('')}
+        </div>
+      </div>
+      <div style="margin-bottom:30px;">
+        <h3 style="color:#d63384;margin-bottom:15px;">Choose Categories (${scoops} category${scoops > 1 ? 'ies' : 'y'})</h3>
+        <div class="category-chips" style="display:flex;flex-wrap:wrap;gap:12px;">
+          ${categories.map((cat) =>
+            `<div class="category-chip" data-category="${cat}" style="background:#f8f9fa;padding:10px 20px;border-radius:25px;cursor:pointer;border:2px solid transparent;">${cat}</div>`
+          ).join('')}
+        </div>
+      </div>
+      <div style="text-align:center;">
+        <button onclick="submitLuckyScoopOrder()" class="explore-btn" style="margin-right:10px;background:linear-gradient(45deg,#d63384,#e91e63);color:white;border:none;padding:14px 35px;border-radius:30px;font-size:1.1rem;font-weight:bold;cursor:pointer;">
+          Order Now!
+        </button>
+        <button onclick="closeLuckyScoopBuilder()" style="background:#6c757d;color:white;border:none;padding:14px 35px;border-radius:30px;font-size:1.1rem;font-weight:bold;cursor:pointer;">Cancel</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  // Color selection
+  modal.querySelectorAll('.color-option').forEach(option => {
+    option.addEventListener('click', function() {
+      modal.querySelectorAll('.color-option').forEach(o => o.style.borderColor = 'transparent');
+      this.style.borderColor = '#d63384';
+      selectedColor = this.dataset.color;
+    });
+  });
+  // Category selection
+  modal.querySelectorAll('.category-chip').forEach(chip => {
+    chip.addEventListener('click', function() {
+      if (this.style.borderColor === '#d63384') {
+        this.style.borderColor = 'transparent';
+        selectedCategories = selectedCategories.filter(c => c !== this.dataset.category);
+      } else if (selectedCategories.length < scoops) {
+        this.style.borderColor = '#d63384';
+        selectedCategories.push(this.dataset.category);
+      } else {
+        alert("You can only select " + scoops + " category" + (scoops > 1 ? "ies!" : "y!"));
+      }
+    });
+  });
+  window.closeLuckyScoopBuilder = function() {
+    document.body.removeChild(modal);
+  }
+  window.submitLuckyScoopOrder = function() {
+    if (!selectedColor) {
+      alert("Please select a color preference!");
+      return;
+    }
+    if (selectedCategories.length !== scoops) {
+      alert("Please select exactly " + scoops + " category" + (scoops > 1 ? "ies!" : "y!"));
+      return;
+    }
+    const orderSummary = `Lucky Scoop Order\nScoops: ${scoops}, Price: ₹${price}\nColor: ${selectedColor}\nCategories: ${selectedCategories.join(", ")}\nItems: ${scoops}-scoops / surprise items!`;
+    if (confirm(orderSummary + "\nPay with Razorpay?\nCancel=Order via WhatsApp")) {
+      window.open("https://razorpay.me/bobosdoodle", "_blank");
+    } else {
+      const whatsappMsg = encodeURIComponent("Hi! I'd like to order\n" + orderSummary);
+      window.open("https://wa.me/919999835471?text=" + whatsappMsg, "_blank");
+    }
+    closeLuckyScoopBuilder();
+  }
+}
+// Link this function to relevant buttons like:
+// <div class="scoop-card" onclick="openLuckyScoopBuilder(1,399)">...</div>
+</script>
+
 </body>
 </html>
