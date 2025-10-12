@@ -162,6 +162,62 @@
   .modal-buttons button {
     margin: 0 10px;
   }
+  /* --- Fancy Category Grid Styles --- */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 28px;
+  margin-top: 40px;
+  margin-bottom: 60px;
+}
+.category-card {
+  background: linear-gradient(135deg, #ffeef8 40%, #f0e6ff 100%);
+  border-radius: 24px;
+  box-shadow: 0 12px 36px rgba(214,51,132,0.08);
+  padding: 38px 18px 25px 18px;
+  text-align: center;
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: pointer;
+  border: 2px solid #fae1f0;
+}
+.category-card:hover {
+  transform: translateY(-10px) scale(1.04);
+  box-shadow: 0 18px 50px rgba(214,51,132,0.16);
+  border-color: #eac2e6;
+}
+.category-icon {
+  font-size: 3.3rem;
+  margin-bottom: 14px;
+  color: #d63384;
+}
+.category-card h3 {
+  margin: 0 0 7px 0;
+  font-size: 1.3rem;
+  color: #ab3382;
+  font-family: inherit;
+}
+.category-card p {
+  color: #6a6784;
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+.shop-now-btn {
+  background: linear-gradient(45deg, #d63384 80%, #e91e63);
+  color: white;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-top: 7px;
+  display: inline-block;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+.shop-now-btn:hover {
+  background: linear-gradient(45deg, #e91e63 80%, #d63384);
+}
+
 </style>
 </head>
 <body>
@@ -213,19 +269,51 @@
     </div>
   </section>
 
-  <section id="categories-list">
-    <h2>Shop by Category</h2>
-    <ul>
-      <li><a href="#labubu-collection">Labubu Collection</a> - Fur diaries, pouches & more</li>
-      <li><a href="#kuromi-collection">Kuromi Collection</a> - Diaries, mirrors & accessories</li>
-      <li><a href="#stationery">Stationery</a> - Diaries, planners & notebooks</li>
-      <li><a href="#jewelry">Jewelry</a> - Earrings, necklaces & more</li>
-      <li><a href="#hair-accessories">Hair Accessories</a> - Claws, clips & headbands</li>
-      <li><a href="#bags-pouches">Bags & Pouches</a> - Slings, pouches & cases</li>
-    </ul>
-  </section>
+  <section id="categories" class="categories">
+  <div class="container">
+    <h2 class="section-title">Shop by Category</h2>
+    <div class="category-grid">
+      <div class="category-card" onclick="scrollToCategorySection('labubu-collection')">
+        <div class="category-icon">🧸</div>
+        <h3>Labubu Collection</h3>
+        <p>Fur diaries, pouches & more</p>
+        <div class="shop-now-btn">Shop Now</div>
+      </div>
+      <div class="category-card" onclick="scrollToCategorySection('kuromi-collection')">
+        <div class="category-icon">💜</div>
+        <h3>Kuromi Collection</h3>
+        <p>Diaries, mirrors & accessories</p>
+        <div class="shop-now-btn">Shop Now</div>
+      </div>
+      <div class="category-card" onclick="scrollToCategorySection('stationery')">
+        <div class="category-icon">📝</div>
+        <h3>Stationery</h3>
+        <p>Diaries, planners & notebooks</p>
+        <div class="shop-now-btn">Shop Now</div>
+      </div>
+      <div class="category-card" onclick="scrollToCategorySection('jewelry')">
+        <div class="category-icon">💍</div>
+        <h3>Jewelry</h3>
+        <p>Earrings, necklaces & more</p>
+        <div class="shop-now-btn">Shop Now</div>
+      </div>
+      <div class="category-card" onclick="scrollToCategorySection('hair-accessories')">
+        <div class="category-icon">💖</div>
+        <h3>Hair Accessories</h3>
+        <p>Claws, clips & headbands</p>
+        <div class="shop-now-btn">Shop Now</div>
+      </div>
+      <div class="category-card" onclick="scrollToCategorySection('bags-pouches')">
+        <div class="category-icon">👜</div>
+        <h3>Bags & Pouches</h3>
+        <p>Slings, pouches & cases</p>
+        <div class="shop-now-btn">Shop Now</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <section id="labubu-collection">
+       <section id="labubu-collection">
     <h3>Labubu Collection</h3>
     <p>Fur diaries, pouches & more</p>
     <!-- Product cards here if desired -->
@@ -417,5 +505,14 @@ function openLuckyScoopBuilder(scoops, price) {
   };
 }
 </script>
+  <script>
+function scrollToCategorySection(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (section) {
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+}
+</script>
+
 </body>
 </html>
