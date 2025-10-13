@@ -1,587 +1,576 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>bobosdoodle - Aesthetic Stationery & Cute Accessories</title>
-<style>
-  /* General reset and base styles */
-  body {
-    font-family: Georgia, serif;
-    background: linear-gradient(135deg, #ffeef8 0%, #f0e6ff 100%);
-    color: #4a4a4a;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0 20px;
-  }
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .promo-banner {
-    background: linear-gradient(45deg, #d63384, #e91e63, #d63384);
-    background-size: 200% 200%;
-    animation: gradientShift 3s ease infinite;
-    color: white;
-    padding: 12px 0;
-    text-align: center;
-    position: sticky;
-    top: 0;
-    z-index: 101;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    overflow: hidden;
-  }
-  @keyframes gradientShift {
-    0%, 100% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-  }
-  .promo-text {
-    font-weight: 600;
-    font-size: 0.95rem;
-    display: inline-block;
-    animation: slideText 25s linear infinite;
-  }
-  @keyframes slideText {
-    0% {transform: translateX(100%);}
-    100% {transform: translateX(-100%);}
-  }
-  header {
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    padding: 15px 0;
-    margin-bottom: 35px;
-    position: sticky;
-    top: 40px;
-    z-index: 100;
-  }
-  header h1 {
-    color: #d63384;
-    font-family: 'Brush Script MT', cursive;
-    text-align: center;
-    font-weight: 900;
-    margin: 0;
-    font-size: 2.5rem;
-  }
-  nav {
-    text-align: center;
-    margin-top: 10px;
-  }
-  nav a {
-    color: #d63384;
-    text-decoration: none;
-    margin: 5px 15px;
-    font-weight: 600;
-    font-size: 1rem;
-  }
-  nav a:hover {
-    color: #e91e63;
-  }
-  /* Button styles */
-  .btn {
-    background: linear-gradient(45deg, #d63384, #e91e63);
-    border: none;
-    padding: 14px 35px;
-    color: #fff;
-    border-radius: 30px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  .btn:hover {
-    background: linear-gradient(45deg, #e91e63, #d63384);
-  }
-  /* Floating cart button */
-  .cart-btn {
-    position: fixed;
-    top: 100px;
-    right: 20px;
-    background: linear-gradient(45deg, #d63384, #e91e63);
-    color: white;
-    padding: 12px 20px;
-    border-radius: 30px;
-    font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    display: none;
-    z-index: 1000;
-  }
-  .cart-btn span {
-    font-weight: 900;
-  }
-  /* Popup modal styles */
-  .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 1500;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-  .modal-content {
-    background: white;
-    max-width: 700px;
-    max-height: 90vh;
-    overflow-y: auto;
-    border-radius: 25px;
-    padding: 40px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-    font-family: Georgia, serif;
-  }
-  .modal-content h2 {
-    text-align: center;
-    color: #d63384;
-    font-family: 'Brush Script MT', cursive;
-    margin-bottom: 20px;
-  }
-  .color-options, .category-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 30px;
-  }
-  .color-option, .category-chip {
-    background: #f8f9fa;
-    padding: 15px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    user-select: none;
-  }
-  .selected {
-    border-color: #d63384 !important;
-  }
-  .modal-buttons {
-    text-align: center;
-  }
-  .modal-buttons button {
-    margin: 0 10px;
-  }
-  /* --- Fancy Category Grid Styles --- */
-.category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 28px;
-  margin-top: 40px;
-  margin-bottom: 60px;
-}
-.category-card {
-  background: linear-gradient(135deg, #ffeef8 40%, #f0e6ff 100%);
-  border-radius: 24px;
-  box-shadow: 0 12px 36px rgba(214,51,132,0.08);
-  padding: 38px 18px 25px 18px;
-  text-align: center;
-  transition: transform 0.25s, box-shadow 0.25s;
-  cursor: pointer;
-  border: 2px solid #fae1f0;
-}
-.category-card:hover {
-  transform: translateY(-10px) scale(1.04);
-  box-shadow: 0 18px 50px rgba(214,51,132,0.16);
-  border-color: #eac2e6;
-}
-.category-icon {
-  font-size: 3.3rem;
-  margin-bottom: 14px;
-  color: #d63384;
-}
-.category-card h3 {
-  margin: 0 0 7px 0;
-  font-size: 1.3rem;
-  color: #ab3382;
-  font-family: inherit;
-}
-.category-card p {
-  color: #6a6784;
-  font-size: 1rem;
-  margin-bottom: 16px;
-}
-.shop-now-btn {
-  background: linear-gradient(45deg, #d63384 80%, #e91e63);
-  color: white;
-  padding: 10px 22px;
-  border: none;
-  border-radius: 25px;
-  font-weight: bold;
-  font-size: 1rem;
-  margin-top: 7px;
-  display: inline-block;
-  cursor: pointer;
-  transition: background 0.25s;
-}
-.shop-now-btn:hover {
-  background: linear-gradient(45deg, #e91e63 80%, #d63384);
-}
-
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bobosdoodle - Aesthetic Stationery & Cute Accessories</title>
+  <style>
+    /* General reset and base styles */
+    body {
+      font-family: Georgia, serif;
+      background: linear-gradient(135deg, #ffeef8 0%, #f0e6ff 100%);
+      color: #4a4a4a;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .promo-banner {
+      background: linear-gradient(45deg, #d63384, #e91e63, #d63384);
+      background-size: 200% 200%;
+      animation: gradientShift 3s ease infinite;
+      color: white;
+      padding: 12px 0;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 101;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .promo-text {
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-block;
+      animation: slideText 25s linear infinite;
+    }
+    @keyframes slideText {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 15px 0;
+      margin-bottom: 35px;
+      position: sticky;
+      top: 40px;
+      z-index: 100;
+    }
+    header h1 {
+      color: #d63384;
+      font-family: 'Brush Script MT', cursive;
+      text-align: center;
+      font-weight: 900;
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    nav {
+      text-align: center;
+      margin-top: 10px;
+    }
+    nav a {
+      color: #d63384;
+      text-decoration: none;
+      margin: 5px 15px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    nav a:hover {
+      color: #e91e63;
+    }
+    .btn {
+      background: linear-gradient(45deg, #d63384, #e91e63);
+      border: none;
+      padding: 14px 35px;
+      color: #fff;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background: linear-gradient(45deg, #e91e63, #d63384);
+    }
+    .cart-btn {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: linear-gradient(45deg, #d63384, #e91e63);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 1000;
+    }
+    .cart-btn span {
+      font-weight: 900;
+    }
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1500;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-content {
+      background: white;
+      max-width: 700px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 25px;
+      padding: 40px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+      font-family: Georgia, serif;
+    }
+    .modal-content h2 {
+      text-align: center;
+      color: #d63384;
+      font-family: 'Brush Script MT', cursive;
+      margin-bottom: 20px;
+    }
+    .color-options, .category-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .color-option, .category-chip {
+      background: #f8f9fa;
+      padding: 15px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      user-select: none;
+    }
+    .color-option.selected, .category-chip.selected {
+      border-color: #d63384 !important;
+    }
+    .modal-buttons {
+      text-align: center;
+    }
+    .modal-buttons button {
+      margin: 0 10px;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 28px;
+      margin-bottom: 60px;
+    }
+    .product-card {
+      background: linear-gradient(135deg, #ffeef8 40%, #f0e6ff 100%);
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(214,51,132,0.05);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 36px rgba(214,51,132,0.12);
+    }
+    .product-card img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+    .product-card h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.2rem;
+      color: #ab3382;
+    }
+    .product-card p {
+      font-size: 0.95rem;
+      color: #6a6784;
+      margin-bottom: 15px;
+    }
+    .shop-now-btn {
+      background: linear-gradient(45deg, #d63384 80%, #e91e63);
+      color: white;
+      padding: 10px 22px;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.25s;
+      margin-bottom: 8px;
+    }
+    .shop-now-btn:hover {
+      background: linear-gradient(45deg, #e91e63 80%, #d63384);
+    }
+    section {
+      margin-bottom: 60px;
+    }
+  </style>
 </head>
 <body>
-<div class="promo-banner">
-  <div class="promo-text">
-    Free shipping on all orders over ₹500! 📦 Fast delivery across India 🚚
-  </div>
-</div>
-<header>
-  <h1>bobosdoodle</h1>
-  <nav>
-    <a href="#categories" class="nav-link">Shop Now</a>
-    <a href="#" onclick="openLuckyScoopBuilder(1,399)">Lucky Scoop</a>
-    <a href="#about" class="nav-link">About</a>
-    <a href="#contact" class="nav-link">Contact</a>
-  </nav>
-</header>
-<div class="container">
-  <section id="intro">
-    <h2>Welcome to bobosdoodle ✨</h2>
-    <p>Curated collection of charming everyday essentials and accessories. Browse our selection of stationery, hair accessories, and more – Each piece is designed to bring a little extra joy to your life 💕</p>
-  </section>
-
-      <section id="lucky-scoop">
-    <h2>🍦 Lucky Scoop - Mystery Bundle!</h2>
-    <p>Get surprise bundles of handpicked cute items! Choose your preferences and let us create the perfect collection for you 🎁</p>
-    <button class="btn" onclick="openLuckyScoopBuilder(1, 399)">Pick Your Lucky Scoop!</button>
-        <p>
-  <b>1 Scoop:</b> 3 mystery items<br>
-  <b>2 Scoops:</b> 6 mystery items (choose categories/colors)<br>
-  <b>3 Scoops:</b> 9 items + free gift!
-</p>
-
-  </section>
-
-  <section id="featured-products">
-    <h2>✨ Featured Products</h2>
-    <div class="product-grid" id="categories">
-      <!-- Example product cards -->
-      <div class="product-card">
-        <img src="images/diary1.jpg" alt="Pretty Diary" />
-        <h3>A5 Fur Diary Labubu</h3>
-        <p>Labubu Diary</p>
-        <button class="shop-now-btn btn">Shop Now</button>
-        <button class="add-to-cart-btn btn" onclick="addToCart('BD0001')">Add to Cart</button>
-      </div>
-      <div class="product-card">
-        <img src="images/hairclip1.jpg" alt="A5 Fur Diary Stitch" />
-        <h3>Stitch Diary</h3>
-        <p>Perfect for all-day wear</p>
-        <button class="shop-now-btn btn">Shop Now</button>
-        <button class="add-to-cart-btn btn" onclick="addToCart('BD0001')">Add to Cart</button>
-      </div>
-      <!-- Add more product cards as needed -->
+  <div class="promo-banner">
+    <div class="promo-text">
+      ✨ 15% Discount on first purchase ✨ Free shipping over ₹500! 📦 Fast delivery across India 🚚
     </div>
-  </section>
+  </div>
 
-  <section id="categories" class="categories">
+  <header>
+    <h1>bobosdoodle</h1>
+    <nav>
+      <a href="#categories" class="nav-link">Shop Now</a>
+      <a href="#" onclick="openLuckyScoopBuilder(1, 399)">Lucky Scoop</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+  </header>
+
   <div class="container">
-    <h2 class="section-title">Shop by Category</h2>
-    <div class="category-grid">
-      <div class="category-card" onclick="scrollToCategorySection('labubu-collection')">
-        <div class="category-icon">🧸</div>
-        <h3>Labubu Collection</h3>
-        <p>Fur diaries, pouches & more</p>
-        <div class="shop-now-btn">Shop Now</div>
+    <section id="intro">
+      <h2>Welcome to bobosdoodle ✨</h2>
+      <p>Curated collection of charming everyday essentials and accessories. Browse our selection of stationery, hair accessories, and more – each piece is designed to bring a little extra joy to your life 💕</p>
+    </section>
+
+    <section id="lucky-scoop-info">
+      <h3>🎉 What's in the Lucky Scoop?</h3>
+      <ul>
+        <li><b>1 Scoop (₹399)</b>: 3 mystery items from random categories</li>
+        <li><b>2 Scoops (₹699)</b>: 6 items — you pick 2 preferred categories & a color</li>
+        <li><b>3 Scoops (₹999)</b>: 9 items + free gift — you pick 3 categories & a color</li>
+      </ul>
+      <button class="btn" onclick="openLuckyScoopBuilder(1, 399)">Pick Your Lucky Scoop!</button>
+    </section>
+
+    <section id="featured-products">
+      <h2>✨ Featured Products</h2>
+      <div class="product-grid" id="categories">
+        <!-- Sample product cards — add as many as you like -->
+        <div class="product-card">
+          <img src="images/diary1.jpg" alt="A5 Fur Diary Labubu" />
+          <h3>A5 Fur Diary Labubu</h3>
+          <p>Fluffy and cute diary with soft cover</p>
+          <button class="shop-now-btn">Shop Now</button>
+          <button class="btn add-to-cart-btn"
+                  data-sku="BD0001"
+                  data-name="A5 Fur Diary Labubu"
+                  data-price="210">Add to Cart</button>
+        </div>
+
+        <div class="product-card">
+          <img src="images/hairclip1.jpg" alt="A5 Fur Diary Stitch" />
+          <h3>A5 Fur Diary Stitch</h3>
+          <p>Soft plush cover in stitch design</p>
+          <button class="shop-now-btn">Shop Now</button>
+          <button class="btn add-to-cart-btn"
+                  data-sku="BD0002"
+                  data-name="A5 Fur Diary Stitch"
+                  data-price="210">Add to Cart</button>
+        </div>
+
+        <!-- Add more product cards below, always including data-sku, data-name, data-price -->
+        <!-- Example: -->
+        <div class="product-card">
+          <img src="images/diary2.jpg" alt="A6 Fur Diary Labubu" />
+          <h3>A6 Fur Diary Labubu</h3>
+          <p>Compact soft diary</p>
+          <button class="shop-now-btn">Shop Now</button>
+          <button class="btn add-to-cart-btn"
+                  data-sku="BD0003"
+                  data-name="A6 Fur Diary Labubu"
+                  data-price="133">Add to Cart</button>
+        </div>
+
+        <!-- Continue with other items as needed -->
       </div>
-      <div class="category-card" onclick="scrollToCategorySection('kuromi-collection')">
-        <div class="category-icon">💜</div>
-        <h3>Kuromi Collection</h3>
-        <p>Diaries, mirrors & accessories</p>
-        <div class="shop-now-btn">Shop Now</div>
+    </section>
+
+    <section id="categories">
+      <h2 class="section-title">Shop by Category</h2>
+      <div class="category-grid">
+        <div class="category-card" onclick="scrollToCategorySection('labubu-collection')">
+          <div class="category-icon">🧸</div>
+          <h3>Labubu Collection</h3>
+          <p>Fur diaries, pouches & more</p>
+          <div class="shop-now-btn">Shop Now</div>
+        </div>
+        <div class="category-card" onclick="scrollToCategorySection('kuromi-collection')">
+          <div class="category-icon">💜</div>
+          <h3>Kuromi Collection</h3>
+          <p>Diaries, mirrors & accessories</p>
+          <div class="shop-now-btn">Shop Now</div>
+        </div>
+        <div class="category-card" onclick="scrollToCategorySection('stationery')">
+          <div class="category-icon">📝</div>
+          <h3>Stationery</h3>
+          <p>Diaries, planners & notebooks</p>
+          <div class="shop-now-btn">Shop Now</div>
+        </div>
+        <div class="category-card" onclick="scrollToCategorySection('jewelry')">
+          <div class="category-icon">💍</div>
+          <h3>Jewelry</h3>
+          <p>Earrings, necklaces & more</p>
+          <div class="shop-now-btn">Shop Now</div>
+        </div>
+        <div class="category-card" onclick="scrollToCategorySection('hair-accessories')">
+          <div class="category-icon">💖</div>
+          <h3>Hair Accessories</h3>
+          <p>Claws, clips & headbands</p>
+          <div class="shop-now-btn">Shop Now</div>
+        </div>
+        <div class="category-card" onclick="scrollToCategorySection('bags-pouches')">
+          <div class="category-icon">👜</div>
+          <h3>Bags & Pouches</h3>
+          <p>Slings, pouches & cases</p>
+          <div class="shop-now-btn">Shop Now</div>
+        </div>
       </div>
-      <div class="category-card" onclick="scrollToCategorySection('stationery')">
-        <div class="category-icon">📝</div>
-        <h3>Stationery</h3>
-        <p>Diaries, planners & notebooks</p>
-        <div class="shop-now-btn">Shop Now</div>
-      </div>
-      <div class="category-card" onclick="scrollToCategorySection('jewelry')">
-        <div class="category-icon">💍</div>
-        <h3>Jewelry</h3>
-        <p>Earrings, necklaces & more</p>
-        <div class="shop-now-btn">Shop Now</div>
-      </div>
-      <div class="category-card" onclick="scrollToCategorySection('hair-accessories')">
-        <div class="category-icon">💖</div>
-        <h3>Hair Accessories</h3>
-        <p>Claws, clips & headbands</p>
-        <div class="shop-now-btn">Shop Now</div>
-      </div>
-      <div class="category-card" onclick="scrollToCategorySection('bags-pouches')">
-        <div class="category-icon">👜</div>
-        <h3>Bags & Pouches</h3>
-        <p>Slings, pouches & cases</p>
-        <div class="shop-now-btn">Shop Now</div>
-      </div>
-    </div>
+    </section>
+
+    <section id="labubu-collection">
+      <h3>Labubu Collection</h3>
+      <p>Fur diaries, pouches & more</p>
+    </section>
+
+    <section id="kuromi-collection">
+      <h3>Kuromi Collection</h3>
+      <p>Diaries, mirrors & accessories</p>
+    </section>
+
+    <section id="stationery">
+      <h3>Stationery</h3>
+      <p>Diaries, planners & notebooks</p>
+    </section>
+
+    <section id="jewelry">
+      <h3>Jewelry</h3>
+      <p>Earrings, necklaces & more</p>
+    </section>
+
+    <section id="hair-accessories">
+      <h3>Hair Accessories</h3>
+      <p>Claws, clips & headbands</p>
+    </section>
+
+    <section id="bags-pouches">
+      <h3>Bags & Pouches</h3>
+      <p>Slings, pouches & cases</p>
+    </section>
+
+    <section id="about">
+      <h2>About bobosdoodle</h2>
+      <p>
+        Started in 2025, bobosdoodle offers a curated collection of charming everyday essentials and accessories.
+        Browse our selection of stationery, hair accessories, mugs, bookmarks, and coin purses – each piece is designed
+        to bring a little extra joy to your life. We craft with care, for the everyday memento collectors and stationery lovers.
+      </p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact Us</h2>
+      <p>If you have any questions or want to place a custom order, feel free to reach out!</p>
+      <p>Email: <a href="mailto:info@bobosdoodle.com">info@bobosdoodle.com</a></p>
+      <p>Phone: +91 99998 35471</p>
+      <p>Instagram: <a href="https://instagram.com/bobosdoodle" target="_blank">@bobosdoodle</a></p>
+    </section>
   </div>
-</section>
 
-       <section id="labubu-collection">
-    <h3>Labubu Collection</h3>
-    <p>Fur diaries, pouches & more</p>
-    <!-- Product cards here if desired -->
-  </section>
+  <a href="#" class="cart-btn" id="cart-button" onclick="showCart()">
+    Cart <span id="cart-count">0</span>
+  </a>
 
-  <section id="kuromi-collection">
-    <h3>Kuromi Collection</h3>
-    <p>Diaries, mirrors & accessories</p>
-    <!-- Product cards here if desired -->
-  </section>
-
-  <section id="stationery">
-    <h3>Stationery</h3>
-    <p>Diaries, planners & notebooks</p>
-    <!-- Product cards here if desired -->
-  </section>
-
-  <section id="jewelry">
-    <h3>Jewelry</h3>
-    <p>Earrings, necklaces & more</p>
-    <!-- Product cards here if desired -->
-  </section>
-
-  <section id="hair-accessories">
-    <h3>Hair Accessories</h3>
-    <p>Claws, clips & headbands</p>
-    <!-- Product cards here if desired -->
-  </section>
-
-  <section id="bags-pouches">
-    <h3>Bags & Pouches</h3>
-    <p>Slings, pouches & cases</p>
-    <!-- Product cards here if desired -->
-  </section>
-
-  <section id="about">
-    <h2>About bobosdoodle</h2>
-    <p>
-      Started in 2025, Bobosdoodle offers a curated collection of charming everyday essentials and accessories.
-      Browse our selection of stationery notebooks, hair accessories, mugs, bookmarks, and coin purses – Each piece is designed 
-      to bring a little extra joy to your life. We craft with care, for the everyday momento collectors and stationery lovers.
-    </p>
-  </section>
-
-      <section id="contact">
-    <h2>Contact Us</h2>
-    <p>If you have any questions or want to place a custom order, feel free to reach out!</p>
-    <p>Email: <a href="mailto:info@bobosdoodle.com">info@bobosdoodle.com</a></p>
-    <p>Phone: +91 99998 35471</p>
-    <p>Instagram: <a href="https://instagram.com/bobosdoodle" target="_blank">@bobosdoodle</a></p>
-  </section>
-</div> <!-- .container -->
-
-<!-- Floating Cart Button -->
-<a href="#" class="cart-btn" id="cart-button" onclick="showCart()">
-  Cart <span id="cart-count">0</span>
-</a>
-
-<script>
-// Smooth scroll for Shop Now buttons
-function scrollToCategories() {
-  const categories = document.getElementById('categories');
-  if (categories) {
-    categories.scrollIntoView({ behavior: 'smooth' });
-  }
-}
-document.querySelectorAll('.shop-now-btn').forEach(btn => {
-  btn.addEventListener('click', scrollToCategories);
-});
-
-// Basic cart logic
-let cart = [];
-  window.cart = cart;
-
-
-function addToCart(sku) {
-    const products = [
-  { sku: 'BD0001', name: 'PA5 Fur Diary Labubu', price: 210 },
-  { sku: 'BD0002', name: 'A5 Fur Diary Stitch', price: 210 },
-  { sku: 'BD0003', name: 'A6 Fur Diary Labubu', price: 133 },
-  { sku: 'BD0004', name: 'A6 Fur Diary Kuromi/Unicorn', price: 130 },
-  { sku: 'BD0005', name: 'Frosted Glass Water Bottle  Lucky Day', price: 100 },
-  { sku: 'BD0006', name: 'Glass Water Bottle - Cat Cap', price: 150 },
-  { sku: 'BD0007', name: 'A5 Diary Printed softbound', price: 65 },
-  { sku: 'BD0008', name: 'A5 Diary with Quote', price: 65 },
-  { sku: 'BD0009', name: 'Weekly Planner', price: 174 },
-  { sku: 'BD0010', name: 'Eraser - (Ice Cream Candy) 4pcs set', price: 45 },
-  { sku: 'BD0011', name: 'Kuromi Sticker Diary', price: 130 },
-  { sku: 'BD0012', name: 'Eraser - Retractable', price: 52 },
-  { sku: 'BD0013', name: 'Mirror With Comb - Kuromi', price: 42 },
-  { sku: 'BD0014', name: 'Mirror With Comb - Cute bear Circle', price: 67 },
-  { sku: 'BD0015', name: 'Mirror With Comb - Long', price: 50 },
-  { sku: 'BD0016', name: 'Lipstick Holder', price: 152 },
-  { sku: 'BD0017', name: 'A8 Diary - Small Kuromi Spiral', price: 49 },
-  { sku: 'BD0018', name: 'Labubu Fur Pouch', price: 92 },
-  { sku: 'BD0019', name: 'Silicon Sling Purse Kuromi', price: 266 },
-  { sku: 'BD0020', name: 'Stack Pencils - Art Pencil', price: 16 },
-  { sku: 'BD0021', name: 'Sharpener - Camera', price: 28 },
-  { sku: 'BD0022', name: 'Erasers - Donut', price: 10 },
-  { sku: 'BD0023', name: 'Eraser - Magic Box Eraser', price: 28 },
-  { sku: 'BD0024', name: 'Silicon Sling with Handle - Labubu', price: 175 },
-  { sku: 'BD0025', name: 'Sanrio Theme Plush Sling', price: 340 },
-  { sku: 'BD0026', name: 'Jumbo Pouch Labubu', price: 155 },
-  { sku: 'BD0027', name: 'Silicon Sling - Labubu', price: 160 },
-  { sku: 'BD0028', name: 'Metal chain bookmark', price: 75 },
-  { sku: 'BD0029', name: 'Metal hollow bookmark', price: 30 },
-  { sku: 'BD0030', name: 'Magnetic bookmark', price: 20 },
-  { sku: 'BD0031', name: 'Paper bookmark', price: 6 },
-  { sku: 'BD0032', name: 'Check Sticky notes', price: 20 },
-   
-      
-      
-  // Add more products, ensuring every card matches a sku here!
-];
-
-  // add other products as needed with actual prices
-];
-
-    // add other products as needed
-  ];
-  const product = products.find(p => p.sku === sku);
-  if (!product) return;
-  const existing = cart.find(item => item.sku === sku);
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    cart.push({ ...product, quantity: 1 });
-  }
-  updateCartButton();
-  showNotification(`Added ${product.name} to cart!`);
-}
-
-function updateCartButton() {
-  const cartButton = document.getElementById('cart-button');
-  const cartCount = document.getElementById('cart-count');
-  const total = cart.reduce((sum, item) => sum + item.quantity, 0);
-  if (total > 0) {
-    cartButton.style.display = 'inline-block';
-    cartCount.textContent = total;
-  } else {
-    cartButton.style.display = 'none';
-  }
-}
-
-function showNotification(msg) {
-  const notification = document.createElement('div');
-  notification.style.cssText = 'position:fixed;top:100px;right:20px;background:linear-gradient(45deg,#28a745,#20c997);color:white;padding:15px 25px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:1000;font-weight:bold';
-  notification.textContent = msg;
-  document.body.appendChild(notification);
-  setTimeout(() => {
-    document.body.removeChild(notification);
-  }, 2000);
-}
-
-function showCart() {
-  // Example cart array, use your actual cart logic!
-  // Each item: { name: 'Product Name', quantity: 2 }
-  // Replace this with your real cart data!
-  let cart = window.cart || [];
-  // Calculate total (example prices, add your own price logic)
-  let total = 0;
-  cart.forEach(item => {
-    // Add actual price logic here:
-    total += (item.price || 399) * item.quantity; // Replace with your price system
-  });
-
-  const modal = document.createElement('div');
-  modal.className = 'modal-overlay';
-  modal.innerHTML = `
-    <div class="modal-content" style="max-width:420px;">
-      <h2>Your Cart</h2>
-      <div>
-        ${cart.length === 0
-          ? `<p>Your cart is empty.</p>`
-          : `<ul style="text-align:left;">
-              ${cart.map(item =>
-                `<li>${item.name} x${item.quantity}</li>`
-              ).join('')}
-            </ul>
-            <div class="cart-total"><b>Total:</b> ₹${total}</div>
-            <button class="btn" id="whatsappCheckout">Checkout via WhatsApp</button>
-            `}
-      </div>
-      <div class="modal-buttons">
-        <button class="btn" style="background:#6c757d;" id="closeCartBtn">Close</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  document.getElementById('closeCartBtn').onclick = function() {
-    document.body.removeChild(modal);
-  };
-  if (cart.length > 0) {
-    document.getElementById('whatsappCheckout').onclick = function() {
-      const msg = "Hi! I want to buy:\n" + cart.map(
-        item => `- ${item.name} x${item.quantity}`).join("\n") +
-        `\nTotal: ₹${total}`;
-      window.open("https://wa.me/919999835471?text=" + encodeURIComponent(msg), "_blank");
-    };
-  }
-}
-
-  document.body.appendChild(modal);
-
-  modal.querySelectorAll('.color-option').forEach(el => el.addEventListener('click', function() {
-    modal.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
-    this.classList.add('selected');
-    selectedColor = this.dataset.color;
-  }));
-
-  modal.querySelectorAll('.category-chip').forEach(el => el.addEventListener('click', function() {
-    if (this.classList.contains('selected')) {
-      this.classList.remove('selected');
-      selectedCategories = selectedCategories.filter(c => c !== this.dataset.category);
-    } else if (selectedCategories.length < scoops) {
-      this.classList.add('selected');
-      selectedCategories.push(this.dataset.category);
-    } else {
-      alert(`You can only select ${scoops} category${scoops > 1 ? 'ies' : 'y'}!`);
-    }
-  }));
-
-  modal.querySelector('#closeBtn').onclick = () => {
-    document.body.removeChild(modal);
-  };
-
-  modal.querySelector('#orderBtn').onclick = () => {
-    if (!selectedColor) {
-      alert('Please select a color preference!');
-      return;
-    }
-    if (selectedCategories.length !== scoops) {
-      alert(`Please select exactly ${scoops} category${scoops > 1 ? 'ies' : 'y'}!`);
-      return;
-    }
-    const orderSummary = `Lucky Scoop Order\nScoops: ${scoops}, Price: ₹${price}\nColor: ${selectedColor}\nCategories: ${selectedCategories.join(', ')}`;
-    if (confirm(orderSummary + '\nPay with Razorpay?\nCancel = Order via WhatsApp')) {
-      window.open('https://razorpay.me/bobosdoodle', '_blank');
-    } else {
-      const whatsappMsg = encodeURIComponent(`Hi! I'd like to order\n${orderSummary}`);
-      window.open(`https://wa.me/919999835471?text=${whatsappMsg}`, '_blank');
-    }
-    document.body.removeChild(modal);
-  };
-  </script>
-  
   <script>
-function scrollToCategorySection(sectionId) {
-  const section = document.getElementById(sectionId);
-  if (section) {
-    section.scrollIntoView({ behavior: "smooth" });
-  }
-}
-  function whatsappOrder(cart) {
-  // Replace `cart` with your site's actual cart data variable
-  const msg = "Hi! I want to buy:\n" + cart.map(item =>
-    `- ${item.name} x${item.quantity}`).join("\n");
-  window.open("https://wa.me/919999835471?text=" + encodeURIComponent(msg), "_blank");
-}
+    // Cart array
+    let cart = [];
 
-</script>
+    // Add-to-cart logic (dynamic)
+    function addToCart(sku, name, price) {
+      const existing = cart.find(item => item.sku === sku);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ sku, name, price, quantity: 1 });
+      }
+      updateCartButton();
+      showNotification(`Added ${name} to cart!`);
+    }
 
+    function updateCartButton() {
+      const cartButton = document.getElementById('cart-button');
+      const cartCount = document.getElementById('cart-count');
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      if (totalItems > 0) {
+        cartButton.style.display = 'inline-block';
+        cartCount.textContent = totalItems;
+      } else {
+        cartButton.style.display = 'none';
+      }
+    }
+
+    function showNotification(msg) {
+      const notification = document.createElement('div');
+      notification.style.cssText = 'position:fixed;top:100px;right:20px;background:linear-gradient(45deg,#28a745,#20c997);color:white;padding:15px 25px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:1000;font-weight:bold';
+      notification.textContent = msg;
+      document.body.appendChild(notification);
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 2000);
+    }
+
+    function showCart() {
+      const modal = document.createElement('div');
+      modal.className = 'modal-overlay';
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+      });
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width:420px;">
+          <h2>Your Cart</h2>
+          <div>
+            ${cart.length === 0
+              ? `<p>Your cart is empty.</p>`
+              : `<ul style="text-align:left;">
+                  ${cart.map(item => `<li>${item.name} x${item.quantity}</li>`).join('')}
+                </ul>
+                <div class="cart-total"><b>Total:</b> ₹${total}</div>
+                <button class="btn" id="whatsappCheckout">Checkout via WhatsApp</button>`}
+          </div>
+          <div class="modal-buttons">
+            <button class="btn" style="background:#6c757d;" id="closeCartBtn">Close</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      document.getElementById('closeCartBtn').onclick = () => {
+        document.body.removeChild(modal);
+      };
+      if (cart.length > 0) {
+        document.getElementById('whatsappCheckout').onclick = () => {
+          const msg = "Hi! I want to buy:\n" +
+            cart.map(item => `- ${item.name} x${item.quantity}`).join("\n") +
+            `\nTotal: ₹${total}`;
+          window.open("https://wa.me/919999835471?text=" + encodeURIComponent(msg), "_blank");
+        };
+      }
+    }
+
+    // Hook up Add to Cart buttons
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const sku = this.getAttribute('data-sku');
+          const name = this.getAttribute('data-name');
+          const price = parseFloat(this.getAttribute('data-price'));
+          addToCart(sku, name, price);
+        });
+      });
+
+      // Hook up shop-now to scroll
+      document.querySelectorAll('.shop-now-btn').forEach(btn => {
+        btn.addEventListener('click', scrollToCategories);
+      });
+    });
+
+    function scrollToCategories() {
+      const categoriesDiv = document.getElementById('categories');
+      if (categoriesDiv) {
+        categoriesDiv.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function scrollToCategorySection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    // Lucky Scoop builder
+    function openLuckyScoopBuilder(scoops = 1, price = 399) {
+      const modal = document.createElement('div');
+      modal.className = 'modal-overlay';
+      const categories = ['Stationery', 'Jewelry', 'Hair Accessories', 'Bags & Pouches', 'Diaries', 'Stickers'];
+      const colors = ['Pink', 'Purple', 'Blue', 'Neutral'];
+
+      let selectedColor = '';
+      let selectedCategories = [];
+
+      modal.innerHTML = `
+        <div class="modal-content">
+          <h2>🛍️ Build Your Lucky Scoop</h2>
+          <p><strong>${scoops} Scoop${scoops > 1 ? 's' : ''} - ₹${price}</strong></p>
+          <h3>Select Color Preference:</h3>
+          <div class="color-options">
+            ${colors.map(color => `<div class="color-option" data-color="${color}">${color}</div>`).join('')}
+          </div>
+          <h3>Select ${scoops} Categories:</h3>
+          <div class="category-chips">
+            ${categories.map(cat => `<div class="category-chip" data-category="${cat}">${cat}</div>`).join('')}
+          </div>
+          <div class="modal-buttons">
+            <button class="btn" id="orderBtn">Order Now</button>
+            <button class="btn" style="background: #6c757d;" id="closeBtn">Cancel</button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+
+      modal.querySelectorAll('.color-option').forEach(el =>
+        el.addEventListener('click', function () {
+          modal.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
+          this.classList.add('selected');
+          selectedColor = this.dataset.color;
+        })
+      );
+
+      modal.querySelectorAll('.category-chip').forEach(el =>
+        el.addEventListener('click', function () {
+          if (this.classList.contains('selected')) {
+            this.classList.remove('selected');
+            selectedCategories = selectedCategories.filter(c => c !== this.dataset.category);
+          } else if (selectedCategories.length < scoops) {
+            this.classList.add('selected');
+            selectedCategories.push(this.dataset.category);
+          } else {
+            alert(`You can only select ${scoops} category${scoops > 1 ? 'ies' : 'y'}!`);
+          }
+        })
+      );
+
+      modal.querySelector('#closeBtn').onclick = () => {
+        document.body.removeChild(modal);
+      };
+
+      modal.querySelector('#orderBtn').onclick = () => {
+        if (!selectedColor) {
+          alert('Please select a color!');
+          return;
+        }
+        if (selectedCategories.length !== scoops) {
+          alert(`Please select exactly ${scoops} categories!`);
+          return;
+        }
+
+        const summary = `Lucky Scoop Order\nScoops: ${scoops}, ₹${price}\nColor: ${selectedColor}\nCategories: ${selectedCategories.join(', ')}`;
+
+        if (confirm(summary + '\nProceed to Razorpay?\nCancel = Order via WhatsApp')) {
+          window.open('https://razorpay.me/bobosdoodle', '_blank');
+        } else {
+          const whatsappMsg = encodeURIComponent(`Hi! I'd like to order\n${summary}`);
+          window.open(`https://wa.me/919999835471?text=${whatsappMsg}`, '_blank');
+        }
+
+        document.body.removeChild(modal);
+      };
+    }
+  </script>
 </body>
 </html>
