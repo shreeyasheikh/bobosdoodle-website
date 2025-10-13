@@ -386,11 +386,16 @@ document.querySelectorAll('.shop-now-btn').forEach(btn => {
 
 // Basic cart logic
 let cart = [];
+  window.cart = cart;
+
 
 function addToCart(sku) {
   const products = [
-    { sku: 'diary1', name: 'Pretty Diary' },
-    { sku: 'hairclip1', name: 'Cute Hair Clip' },
+  { sku: 'diary1', name: 'Pretty Diary', price: 399 },
+  { sku: 'hairclip1', name: 'Cute Hair Clip', price: 199 },
+  // add other products as needed with actual prices
+];
+
     // add other products as needed
   ];
   const product = products.find(p => p.sku === sku);
@@ -428,39 +433,54 @@ function showNotification(msg) {
 }
 
 function showCart() {
-  alert('Cart functionality is coming soon!');
-}
-
-// Lucky Scoop popup modal logic
-function openLuckyScoopBuilder(scoops, price) {
-  const colors = ["Pink", "Blue", "Purple", "Pastel", "Rainbow", "Black", "White", "Gold/Silver", "No preference"];
-  const categories = ["Stationery", "Hair Accessories", "Jewelry", "Bags Pouches", "Mixed Surprise"];
-  let selectedColor = "";
-  let selectedCategories = [];
+  // Example cart array, use your actual cart logic!
+  // Each item: { name: 'Product Name', quantity: 2 }
+  // Replace this with your real cart data!
+  let cart = window.cart || [];
+  // Calculate total (example prices, add your own price logic)
+  let total = 0;
+  cart.forEach(item => {
+    // Add actual price logic here:
+    total += (item.price || 399) * item.quantity; // Replace with your price system
+  });
 
   const modal = document.createElement('div');
   modal.className = 'modal-overlay';
   modal.innerHTML = `
-    <div class="modal-content">
-      <h2>Build Your Scoops (${scoops} - ₹${price})</h2>
+    <div class="modal-content" style="max-width:420px;">
+      <h2>Your Cart</h2>
       <div>
-        <h3>Choose Color Preference</h3>
-        <div class="color-options">
-          ${colors.map(color => `<div class="color-option" data-color="${color}">${color}</div>`).join('')}
-        </div>
-      </div>
-      <div>
-        <h3>Choose Categories (${scoops})</h3>
-        <div class="category-chips">
-          ${categories.map(cat => `<div class="category-chip" data-category="${cat}">${cat}</div>`).join('')}
-        </div>
+        ${cart.length === 0
+          ? `<p>Your cart is empty.</p>`
+          : `<ul style="text-align:left;">
+              ${cart.map(item =>
+                `<li>${item.name} x${item.quantity}</li>`
+              ).join('')}
+            </ul>
+            <div class="cart-total"><b>Total:</b> ₹${total}</div>
+            <button class="btn" id="whatsappCheckout">Checkout via WhatsApp</button>
+            `}
       </div>
       <div class="modal-buttons">
-        <button id="orderBtn" class="btn">Order Now!</button>
-        <button id="closeBtn" class="btn" style="background:#6c757d;">Cancel</button>
+        <button class="btn" style="background:#6c757d;" id="closeCartBtn">Close</button>
       </div>
     </div>
   `;
+  document.body.appendChild(modal);
+
+  document.getElementById('closeCartBtn').onclick = function() {
+    document.body.removeChild(modal);
+  };
+  if (cart.length > 0) {
+    document.getElementById('whatsappCheckout').onclick = function() {
+      const msg = "Hi! I want to buy:\n" + cart.map(
+        item => `- ${item.name} x${item.quantity}`).join("\n") +
+        `\nTotal: ₹${total}`;
+      window.open("https://wa.me/919999835471?text=" + encodeURIComponent(msg), "_blank");
+    };
+  }
+}
+
   document.body.appendChild(modal);
 
   modal.querySelectorAll('.color-option').forEach(el => el.addEventListener('click', function() {
@@ -503,8 +523,8 @@ function openLuckyScoopBuilder(scoops, price) {
     }
     document.body.removeChild(modal);
   };
-}
-</script>
+  </script>
+  
   <script>
 function scrollToCategorySection(sectionId) {
   const section = document.getElementById(sectionId);
@@ -512,6 +532,13 @@ function scrollToCategorySection(sectionId) {
     section.scrollIntoView({ behavior: "smooth" });
   }
 }
+  function whatsappOrder(cart) {
+  // Replace `cart` with your site's actual cart data variable
+  const msg = "Hi! I want to buy:\n" + cart.map(item =>
+    `- ${item.name} x${item.quantity}`).join("\n");
+  window.open("https://wa.me/919999835471?text=" + encodeURIComponent(msg), "_blank");
+}
+
 </script>
 
 </body>
