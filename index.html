@@ -439,27 +439,6 @@ document.addEventListener('error', function(e){
   Designed with 💖 by bobosdoodle-slay the cute way
 </div>
 <script>
-// Category filter logic
-document.addEventListener('DOMContentLoaded', () => {
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const productCards = document.querySelectorAll('.product-card');
-
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const category = btn.getAttribute('data-category');
-      filterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      productCards.forEach(card => {
-        if (category === 'all' || card.classList.contains(category)) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    });
-  });
-});
 </script>
 
 </body>
