@@ -1,576 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bobosdoodle - Aesthetic Stationery & Cute Accessories</title>
-  <style>
-    /* General reset and base styles */
-    body {
-      font-family: Georgia, serif;
-      background: linear-gradient(135deg, #ffeef8 0%, #f0e6ff 100%);
-      color: #4a4a4a;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0 20px;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .promo-banner {
-      background: linear-gradient(45deg, #d63384, #e91e63, #d63384);
-      background-size: 200% 200%;
-      animation: gradientShift 3s ease infinite;
-      color: white;
-      padding: 12px 0;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 101;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-    @keyframes gradientShift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-    .promo-text {
-      font-weight: 600;
-      font-size: 0.95rem;
-      display: inline-block;
-      animation: slideText 25s linear infinite;
-    }
-    @keyframes slideText {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-    header {
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 15px 0;
-      margin-bottom: 35px;
-      position: sticky;
-      top: 40px;
-      z-index: 100;
-    }
-    header h1 {
-      color: #d63384;
-      font-family: 'Brush Script MT', cursive;
-      text-align: center;
-      font-weight: 900;
-      margin: 0;
-      font-size: 2.5rem;
-    }
-    nav {
-      text-align: center;
-      margin-top: 10px;
-    }
-    nav a {
-      color: #d63384;
-      text-decoration: none;
-      margin: 5px 15px;
-      font-weight: 600;
-      font-size: 1rem;
-    }
-    nav a:hover {
-      color: #e91e63;
-    }
-    .btn {
-      background: linear-gradient(45deg, #d63384, #e91e63);
-      border: none;
-      padding: 14px 35px;
-      color: #fff;
-      border-radius: 30px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .btn:hover {
-      background: linear-gradient(45deg, #e91e63, #d63384);
-    }
-    .cart-btn {
-      position: fixed;
-      top: 100px;
-      right: 20px;
-      background: linear-gradient(45deg, #d63384, #e91e63);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      display: none;
-      z-index: 1000;
-    }
-    .cart-btn span {
-      font-weight: 900;
-    }
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 1500;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    .modal-content {
-      background: white;
-      max-width: 700px;
-      max-height: 90vh;
-      overflow-y: auto;
-      border-radius: 25px;
-      padding: 40px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-      font-family: Georgia, serif;
-    }
-    .modal-content h2 {
-      text-align: center;
-      color: #d63384;
-      font-family: 'Brush Script MT', cursive;
-      margin-bottom: 20px;
-    }
-    .color-options, .category-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-    .color-option, .category-chip {
-      background: #f8f9fa;
-      padding: 15px 20px;
-      border-radius: 25px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      user-select: none;
-    }
-    .color-option.selected, .category-chip.selected {
-      border-color: #d63384 !important;
-    }
-    .modal-buttons {
-      text-align: center;
-    }
-    .modal-buttons button {
-      margin: 0 10px;
-    }
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 28px;
-      margin-bottom: 60px;
-    }
-    .product-card {
-      background: linear-gradient(135deg, #ffeef8 40%, #f0e6ff 100%);
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(214,51,132,0.05);
-      padding: 20px;
-      text-align: center;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .product-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 14px 36px rgba(214,51,132,0.12);
-    }
-    .product-card img {
-      max-width: 100%;
-      border-radius: 12px;
-      margin-bottom: 15px;
-    }
-    .product-card h3 {
-      margin: 0 0 8px 0;
-      font-size: 1.2rem;
-      color: #ab3382;
-    }
-    .product-card p {
-      font-size: 0.95rem;
-      color: #6a6784;
-      margin-bottom: 15px;
-    }
-    .shop-now-btn {
-      background: linear-gradient(45deg, #d63384 80%, #e91e63);
-      color: white;
-      padding: 10px 22px;
-      border: none;
-      border-radius: 25px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.25s;
-      margin-bottom: 8px;
-    }
-    .shop-now-btn:hover {
-      background: linear-gradient(45deg, #e91e63 80%, #d63384);
-    }
-    section {
-      margin-bottom: 60px;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>bobosdoodle — Cute Stationery & Accessories</title>
+<style>
+  :root{--pink1:#d63384;--pink2:#e91e63;--muted:#6c757d;--accent:#28a745}
+  *{box-sizing:border-box}
+  body{font-family:Georgia, serif;background:linear-gradient(135deg,#ffeef8 0%,#f0e6ff 100%);margin:0;color:#333}
+  .container{max-width:1200px;margin:0 auto;padding:20px}
+  .promo{background:linear-gradient(45deg,var(--pink1),var(--pink2));color:#fff;text-align:center;padding:10px;border-radius:10px;margin:10px 0;font-weight:600}
+  header{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+  .logo{font-family:'Brush Script MT',cursive;color:var(--pink1);font-size:28px;text-decoration:none}
+  .nav{display:flex;gap:12px;align-items:center}
+  .nav a{color:var(--muted);text-decoration:none;font-weight:600}
+  .nav a.button-like{background:linear-gradient(45deg,var(--pink1),var(--pink2));color:#fff;padding:8px 12px;border-radius:18px;text-decoration:none}
+  .hero{text-align:center;padding:26px 0}
+  .hero h1{font-family:'Brush Script MT',cursive;color:var(--pink1);font-size:36px;margin:0}
+  .hero p{color:var(--muted);max-width:800px;margin:8px auto 0}
+  .tabs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:22px 0}
+  .tab{padding:8px 14px;border-radius:20px;background:#fff;border:1px solid #f0e6f0;cursor:pointer;font-weight:700;color:var(--muted)}
+  .tab.active{background:#fff0f5;border-color:var(--pink1);color:var(--pink1);transform:scale(1.02)}
+  .product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin:20px 0 40px}
+  .product-card{background:#fff;border-radius:14px;padding:12px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:8px}
+  .product-image{width:100%;height:170px;object-fit:cover;border-radius:10px;background:#f6f4f8}
+  .product-icon{font-size:44px;padding:26px 0}
+  .product-name{color:var(--pink1);font-weight:700;min-height:44px}
+  .sku{font-size:0.85rem;color:#999}
+  .price{color:var(--accent);font-weight:800;font-size:1.05rem;margin-top:6px}
+  .add-btn{background:linear-gradient(45deg,var(--pink1),var(--pink2));color:white;border:none;padding:12px 14px;border-radius:16px;font-weight:800;cursor:pointer;width:100%;font-size:0.95rem}
+  .cart-btn{position:fixed;right:18px;bottom:18px;background:var(--pink1);color:#fff;padding:12px 16px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,0.18);display:none;z-index:999}
+  .cart-count{font-weight:900;margin-left:8px}
+  .overlay{position:fixed;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:2000}
+  .modal{background:#fff;padding:22px;border-radius:16px;max-width:560px;width:94%;max-height:86vh;overflow:auto}
+  .modal h3{color:var(--pink1);margin-top:0}
+  .back-btn{background:#6c757d;color:#fff;padding:8px 12px;border-radius:12px;border:none;cursor:pointer;margin-bottom:12px}
+  @media (max-width:640px){.hero h1{font-size:28px}.product-image{height:140px}}
+  footer{background:#2c2c2c;color:white;text-align:center;padding:36px 0;margin-top:36px}
+</style>
 </head>
 <body>
-  <div class="promo-banner">
-    <div class="promo-text">
-      ✨ 15% Discount on first purchase ✨ Free shipping over ₹500! 📦 Fast delivery across India 🚚
-    </div>
-  </div>
-
-  <header>
-    <h1>bobosdoodle</h1>
-    <nav>
-      <a href="#categories" class="nav-link">Shop Now</a>
-      <a href="#" onclick="openLuckyScoopBuilder(1, 399)">Lucky Scoop</a>
-      <a href="#about" class="nav-link">About</a>
-      <a href="#contact" class="nav-link">Contact</a>
-    </nav>
-  </header>
-
   <div class="container">
-    <section id="intro">
-      <h2>Welcome to bobosdoodle ✨</h2>
-      <p>Curated collection of charming everyday essentials and accessories. Browse our selection of stationery, hair accessories, and more – each piece is designed to bring a little extra joy to your life 💕</p>
+    <div class="promo">🎉 FIRST10 — 10% OFF your first order · Free shipping over ₹500</div>
+    <header>
+      <a class="logo" href="#" onclick="showHome()">bobosdoodle</a>
+      <nav class="nav">
+        <a href="#" class="nav-link" onclick="showHome()">Home</a>
+        <a href="#products" class="nav-link" onclick="scrollToProducts()">Shop</a>
+        <a href="#" class="nav-link" onclick="openLuckyScoopBuilder(1,399)">Lucky Scoop</a>
+        <a href="#about" class="nav-link">About</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>bobosdoodle ✨</h1>
+      <p>Curated collection of charming stationery, hair accessories and small gifts — cute, soft-coloured pieces to brighten your day.</p>
     </section>
 
-    <section id="lucky-scoop-info">
-      <h3>🎉 What's in the Lucky Scoop?</h3>
-      <ul>
-        <li><b>1 Scoop (₹399)</b>: 3 mystery items from random categories</li>
-        <li><b>2 Scoops (₹699)</b>: 6 items — you pick 2 preferred categories & a color</li>
-        <li><b>3 Scoops (₹999)</b>: 9 items + free gift — you pick 3 categories & a color</li>
-      </ul>
-      <button class="btn" onclick="openLuckyScoopBuilder(1, 399)">Pick Your Lucky Scoop!</button>
-    </section>
+    <div class="tabs" id="category-tabs">
+      <div class="tab active" data-cat="all" onclick="filterBy('all')">All</div>
+      <div class="tab" data-cat="stationery" onclick="filterBy('stationery')">Stationery</div>
+      <div class="tab" data-cat="hair" onclick="filterBy('hair')">Hair</div>
+      <div class="tab" data-cat="jewelry" onclick="filterBy('jewelry')">Jewelry</div>
+      <div class="tab" data-cat="bags" onclick="filterBy('bags')">Bags</div>
+      <div class="tab" data-cat="labubu" onclick="filterBy('labubu')">Labubu</div>
+      <div class="tab" data-cat="kuromi" onclick="filterBy('kuromi')">Kuromi</div>
+      <div class="tab" data-cat="accessories" onclick="filterBy('accessories')">Accessories</div>
+    </div>
 
-    <section id="featured-products">
-      <h2>✨ Featured Products</h2>
-      <div class="product-grid" id="categories">
-        <!-- Sample product cards — add as many as you like -->
-        <div class="product-card">
-          <img src="images/diary1.jpg" alt="A5 Fur Diary Labubu" />
-          <h3>A5 Fur Diary Labubu</h3>
-          <p>Fluffy and cute diary with soft cover</p>
-          <button class="shop-now-btn">Shop Now</button>
-          <button class="btn add-to-cart-btn"
-                  data-sku="BD0001"
-                  data-name="A5 Fur Diary Labubu"
-                  data-price="210">Add to Cart</button>
-        </div>
+    <h2 style="text-align:center;color:var(--pink1);margin-top:6px">Featured</h2>
+    <div id="featured-products"></div>
 
-        <div class="product-card">
-          <img src="images/hairclip1.jpg" alt="A5 Fur Diary Stitch" />
-          <h3>A5 Fur Diary Stitch</h3>
-          <p>Soft plush cover in stitch design</p>
-          <button class="shop-now-btn">Shop Now</button>
-          <button class="btn add-to-cart-btn"
-                  data-sku="BD0002"
-                  data-name="A5 Fur Diary Stitch"
-                  data-price="210">Add to Cart</button>
-        </div>
-
-        <!-- Add more product cards below, always including data-sku, data-name, data-price -->
-        <!-- Example: -->
-        <div class="product-card">
-          <img src="images/diary2.jpg" alt="A6 Fur Diary Labubu" />
-          <h3>A6 Fur Diary Labubu</h3>
-          <p>Compact soft diary</p>
-          <button class="shop-now-btn">Shop Now</button>
-          <button class="btn add-to-cart-btn"
-                  data-sku="BD0003"
-                  data-name="A6 Fur Diary Labubu"
-                  data-price="133">Add to Cart</button>
-        </div>
-
-        <!-- Continue with other items as needed -->
-      </div>
-    </section>
-
-    <section id="categories">
-      <h2 class="section-title">Shop by Category</h2>
-      <div class="category-grid">
-        <div class="category-card" onclick="scrollToCategorySection('labubu-collection')">
-          <div class="category-icon">🧸</div>
-          <h3>Labubu Collection</h3>
-          <p>Fur diaries, pouches & more</p>
-          <div class="shop-now-btn">Shop Now</div>
-        </div>
-        <div class="category-card" onclick="scrollToCategorySection('kuromi-collection')">
-          <div class="category-icon">💜</div>
-          <h3>Kuromi Collection</h3>
-          <p>Diaries, mirrors & accessories</p>
-          <div class="shop-now-btn">Shop Now</div>
-        </div>
-        <div class="category-card" onclick="scrollToCategorySection('stationery')">
-          <div class="category-icon">📝</div>
-          <h3>Stationery</h3>
-          <p>Diaries, planners & notebooks</p>
-          <div class="shop-now-btn">Shop Now</div>
-        </div>
-        <div class="category-card" onclick="scrollToCategorySection('jewelry')">
-          <div class="category-icon">💍</div>
-          <h3>Jewelry</h3>
-          <p>Earrings, necklaces & more</p>
-          <div class="shop-now-btn">Shop Now</div>
-        </div>
-        <div class="category-card" onclick="scrollToCategorySection('hair-accessories')">
-          <div class="category-icon">💖</div>
-          <h3>Hair Accessories</h3>
-          <p>Claws, clips & headbands</p>
-          <div class="shop-now-btn">Shop Now</div>
-        </div>
-        <div class="category-card" onclick="scrollToCategorySection('bags-pouches')">
-          <div class="category-icon">👜</div>
-          <h3>Bags & Pouches</h3>
-          <p>Slings, pouches & cases</p>
-          <div class="shop-now-btn">Shop Now</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="labubu-collection">
-      <h3>Labubu Collection</h3>
-      <p>Fur diaries, pouches & more</p>
-    </section>
-
-    <section id="kuromi-collection">
-      <h3>Kuromi Collection</h3>
-      <p>Diaries, mirrors & accessories</p>
-    </section>
-
-    <section id="stationery">
-      <h3>Stationery</h3>
-      <p>Diaries, planners & notebooks</p>
-    </section>
-
-    <section id="jewelry">
-      <h3>Jewelry</h3>
-      <p>Earrings, necklaces & more</p>
-    </section>
-
-    <section id="hair-accessories">
-      <h3>Hair Accessories</h3>
-      <p>Claws, clips & headbands</p>
-    </section>
-
-    <section id="bags-pouches">
-      <h3>Bags & Pouches</h3>
-      <p>Slings, pouches & cases</p>
+    <section id="products" style="margin-top:10px">
+      <h2 style="text-align:center;color:var(--pink1)">All Products</h2>
+      <div class="product-grid" id="product-grid"></div>
     </section>
 
     <section id="about">
-      <h2>About bobosdoodle</h2>
-      <p>
-        Started in 2025, bobosdoodle offers a curated collection of charming everyday essentials and accessories.
-        Browse our selection of stationery, hair accessories, mugs, bookmarks, and coin purses – each piece is designed
-        to bring a little extra joy to your life. We craft with care, for the everyday memento collectors and stationery lovers.
-      </p>
+      <h2 style="color:var(--pink1)">About bobosdoodle</h2>
+      <p>Started in 2025, Bobosdoodle offers a curated collection of charming everyday essentials and accessories. Browse our selection of stationery notebooks, hair accessories, mugs, bookmarks, and coin purses – Each piece is designed to bring a little extra joy to your life.</p>
+      <h4>What makes us special?</h4>
+      <ul>
+        <li>Thoughtfully designed pieces that blend kawaii whimsy with functionality</li>
+        <li>Attention to detail: soft color palettes, gentle shapes, and quality materials</li>
+        <li>A mission to spread positivity, one doodle at a time</li>
+      </ul>
+      <p><b>Message:</b> Dear friend, thank you for letting Bobosdoodle into your life. May our little creations lift your spirits, brighten your space, and remind you that happiness is found in the small things. 💌</p>
     </section>
 
-    <section id="contact">
-      <h2>Contact Us</h2>
-      <p>If you have any questions or want to place a custom order, feel free to reach out!</p>
-      <p>Email: <a href="mailto:info@bobosdoodle.com">info@bobosdoodle.com</a></p>
-      <p>Phone: +91 99998 35471</p>
-      <p>Instagram: <a href="https://instagram.com/bobosdoodle" target="_blank">@bobosdoodle</a></p>
-    </section>
+    <footer>
+      <div style="font-size:1.6rem;color:var(--pink1);font-family:'Brush Script MT',cursive;">bobosdoodle</div>
+      <p style="color:#ddd;margin-top:8px;">© 2025 bobosdoodle.co.in - All rights reserved</p>
+    </footer>
   </div>
 
-  <a href="#" class="cart-btn" id="cart-button" onclick="showCart()">
-    Cart <span id="cart-count">0</span>
-  </a>
+  <button class="cart-btn" id="cart-btn" onclick="openCart()">🛒 Cart <span class="cart-count" id="cart-count">0</span></button>
 
-  <script>
-    // Cart array
-    let cart = [];
+<script>
+/* helper: create placeholder svg image */
+function placeholderImg(name){
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'><rect width='100%' height='100%' fill='#f6f4f8'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='28' fill='#d1c1d1'>${name}</text></svg>`;
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
 
-    // Add-to-cart logic (dynamic)
-    function addToCart(sku, name, price) {
-      const existing = cart.find(item => item.sku === sku);
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        cart.push({ sku, name, price, quantity: 1 });
-      }
-      updateCartButton();
-      showNotification(`Added ${name} to cart!`);
-    }
+/* ------------------------------------------------------------------
+   PRODUCTS ARRAY (ALL products from your Product Catalog PDF)
+   - Each item includes: id, name, sku, price (selling), category, image placeholder
+   - Replace image value with Drive direct link when ready:
+     "https://drive.google.com/uc?export=view&id=YOUR_FILE_ID"
+   ------------------------------------------------------------------ */
+const products = [
+  {id:1, name:"A5 Fur Diary Labubu", sku:"BD0001", price:209.00, category:"labubu", image: placeholderImg("A5 Fur Diary Labubu")},
+  {id:2, name:"A5 Fur Diary Stitch", sku:"BD0002", price:209.00, category:"labubu", image: placeholderImg("A5 Fur Diary Stitch")},
+  {id:3, name:"A6 Fur Diary Labubu", sku:"BD0003", price:133.00, category:"labubu", image: placeholderImg("A6 Fur Diary Labubu")},
+  {id:4, name:"A6 Fur Diary Kuromi/Unicorn", sku:"BD0004", price:129.20, category:"kuromi", image: placeholderImg("A6 Fur Diary Kuromi")},
+  {id:5, name:"Frosted Glass Water Bottle - Lucky Day", sku:"BD0005", price:91.20, category:"accessories", image: placeholderImg("Frosted Bottle")},
+  {id:6, name:"Glass Water Bottle - Cat Cap", sku:"BD0006", price:152.00, category:"accessories", image: placeholderImg("Glass Bottle Cat")},
+  {id:7, name:"A5 Diary Printed softbound", sku:"BD0007", price:62.70, category:"stationery", image: placeholderImg("A5 Printed Diary")},
+  {id:8, name:"A5 Diary with Quote", sku:"BD0008", price:64.60, category:"stationery", image: placeholderImg("A5 Diary Quote")},
+  {id:9, name:"Weekly Planner", sku:"BD0009", price:174.80, category:"stationery", image: placeholderImg("Weekly Planner")},
+  {id:10, name:"Eraser - Ice Cream Candy 4pcs set", sku:"BD0010", price:45.60, category:"stationery", image: placeholderImg("Eraser Set")},
+  {id:11, name:"Kuromi Sticker Diary", sku:"BD0011", price:129.20, category:"kuromi", image: placeholderImg("Kuromi Sticker Diary")},
+  {id:12, name:"Eraser - Retractable", sku:"BD0012", price:51.30, category:"stationery", image: placeholderImg("Retractable Eraser")},
+  {id:13, name:"Mirror With Comb - Kuromi", sku:"BD0013", price:41.80, category:"accessories", image: placeholderImg("Mirror Kuromi")},
+  {id:14, name:"Mirror With Comb - Cure bear Circle", sku:"BD0014", price:66.50, category:"accessories", image: placeholderImg("Mirror Cure Bear")},
+  {id:15, name:"Mirror With Comb - Long", sku:"BD0015", price:49.40, category:"accessories", image: placeholderImg("Mirror Long")},
+  {id:16, name:"Lipstick Holder", sku:"BD0016", price:152.00, category:"accessories", image: placeholderImg("Lipstick Holder")},
+  {id:17, name:"A8 Diary - Small Kuromi Spiral", sku:"BD0017", price:49.40, category:"kuromi", image: placeholderImg("A8 Kuromi Diary")},
+  {id:18, name:"Labubu Fur Pouch", sku:"BD0018", price:91.20, category:"labubu", image: placeholderImg("Labubu Fur Pouch")},
+  {id:19, name:"Silicon Sling Purse Kuromi", sku:"BD0019", price:266.00, category:"kuromi", image: placeholderImg("Kuromi Sling")},
+  {id:20, name:"Stack Pencils - Art Pencil", sku:"BD0020", price:16.15, category:"stationery", image: placeholderImg("Stack Pencils")},
+  {id:21, name:"Sharpener - Camera", sku:"BD0021", price:28.50, category:"stationery", image: placeholderImg("Sharpener Camera")},
+  {id:22, name:"Erasers - Donut", sku:"BD0022", price:9.50, category:"stationery", image: placeholderImg("Donut Erasers")},
+  {id:23, name:"Eraser - Magic Box Eraser", sku:"BD0023", price:28.50, category:"stationery", image: placeholderImg("Magic Box Eraser")},
+  {id:24, name:"Silicon Sling with Handle - Labubu", sku:"BD0024", price:171.00, category:"labubu", image: placeholderImg("Labubu Sling")},
+  {id:25, name:"Sanrio Theme Plush Sling", sku:"BD0025", price:342.00, category:"bags", image: placeholderImg("Sanrio Plush Sling")},
+  {id:26, name:"Jumbo Pouch Labubu", sku:"BD0026", price:152.00, category:"labubu", image: placeholderImg("Jumbo Pouch")},
+  {id:27, name:"Silicon Sling - Labubu", sku:"BD0027", price:161.50, category:"labubu", image: placeholderImg("Silicon Sling Labubu")},
+  {id:28, name:"Metal chain bookmark", sku:"BD0028", price:76.00, category:"stationery", image: placeholderImg("Metal Chain Bookmark")},
+  {id:29, name:"Metal hollow bookmark", sku:"BD0029", price:26.60, category:"stationery", image: placeholderImg("Metal Hollow Bookmark")},
+  {id:30, name:"Magnetic bookmark", sku:"BD0030", price:20.90, category:"stationery", image: placeholderImg("Magnetic Bookmark")},
+  {id:31, name:"Paper bookmark", sku:"BD0031", price:5.70, category:"stationery", image: placeholderImg("Paper Bookmark")},
+  {id:32, name:"Check Sticky notes", sku:"BD0032", price:19.00, category:"stationery", image: placeholderImg("Sticky Notes")},
+  {id:33, name:"Slim Mini notebook", sku:"BD0033", price:17.10, category:"stationery", image: placeholderImg("Slim Mini Notebook")},
+  {id:34, name:"Mini Notes Bear", sku:"BD0034", price:36.10, category:"stationery", image: placeholderImg("Mini Notes Bear")},
+  {id:35, name:"Vintage Coin Purse", sku:"BD0035", price:273.60, category:"bags", image: placeholderImg("Vintage Coin Purse")},
+  {id:36, name:"Gradient Plush pendant - Heart/Star/Cat/Butterfly", sku:"BD0036", price:98.80, category:"accessories", image: placeholderImg("Gradient Plush Pendant")},
+  {id:37, name:"Printed Gel Pen", sku:"BD0037", price:19.00, category:"stationery", image: placeholderImg("Printed Gel Pen")},
+  {id:38, name:"Stylus Ballpoint Pen", sku:"BD0038", price:76.00, category:"stationery", image: placeholderImg("Stylus Pen")},
+  {id:39, name:"Diamond Crystal Pen", sku:"BD0039", price:62.70, category:"stationery", image: placeholderImg("Diamond Pen")},
+  {id:40, name:"Resin Key chain", sku:"BD0040", price:28.50, category:"accessories", image: placeholderImg("Resin Key chain")},
+  {id:41, name:"Standing Post-it Notes (Animal)", sku:"BD0041", price:24.70, category:"stationery", image: placeholderImg("Standing Post-it")},
+  {id:42, name:"Erasable Gel Pen", sku:"BD0042", price:28.50, category:"stationery", image: placeholderImg("Erasable Gel Pen")},
+  {id:43, name:"White Doll bunny pendant", sku:"BD0043", price:108.30, category:"jewelry", image: placeholderImg("White Doll Pendant")},
+  {id:44, name:"Safety whistle", sku:"BD0044", price:62.70, category:"accessories", image: placeholderImg("Safety Whistle")},
+  {id:45, name:"Cross Alloy Pendant", sku:"BD0045", price:28.50, category:"jewelry", image: placeholderImg("Cross Pendant")},
+  {id:46, name:"Gradient Cute Unicorn Coin purse", sku:"BD0046", price:93.10, category:"bags", image: placeholderImg("Unicorn Coin Purse")},
+  {id:47, name:"Cloud Plush Pendant", sku:"BD0047", price:95.00, category:"jewelry", image: placeholderImg("Cloud Pendant")},
+  {id:48, name:"Rubber Colorful Hair Pins", sku:"BD0048", price:13.30, category:"hair", image: placeholderImg("Rubber Hair Pins")},
+  {id:49, name:"Paw shaped plush sling", sku:"BD0049", price:361.00, category:"bags", image: placeholderImg("Paw Plush Sling")},
+  {id:50, name:"Soft Utility Pouch", sku:"BD0050", price:190.00, category:"bags", image: placeholderImg("Soft Utility Pouch")},
+  {id:51, name:"A5 Fur Diary Assorted", sku:"BD0051", price:228.00, category:"labubu", image: placeholderImg("A5 Fur Diary Assorted")},
+  {id:52, name:"Earrings Set (Circle Card)", sku:"BD0052", price:119.70, category:"jewelry", image: placeholderImg("Earrings Set")},
+  {id:53, name:"Anklet/Bracelet (Golden/Silver)", sku:"BD0053", price:47.50, category:"jewelry", image: placeholderImg("Anklet Bracelet")},
+  {id:54, name:"Swirly Hair Ties", sku:"BD0054", price:34.20, category:"hair", image: placeholderImg("Swirly Hair Ties")},
+  {id:55, name:"Earring Set (Square Card)", sku:"BD0055", price:72.20, category:"jewelry", image: placeholderImg("Earring Set Square")},
+  {id:56, name:"Earrings Blue/Gray Square", sku:"BD0056", price:72.20, category:"jewelry", image: placeholderImg("Earrings Blue Gray")},
+  {id:57, name:"Halloween Charm Pendant (Set of 5)", sku:"BD0057", price:98.80, category:"jewelry", image: placeholderImg("Halloween Charm")},
+  {id:58, name:"Bloom Bow Earrings", sku:"BD0058", price:152.00, category:"jewelry", image: placeholderImg("Bloom Bow Earrings")},
+  {id:59, name:"Rhinstone Ring (Set of 3)", sku:"BD0059", price:32.30, category:"jewelry", image: placeholderImg("Rhinestone Ring")},
+  {id:60, name:"Red Bow Small Earring", sku:"BD0060", price:79.80, category:"jewelry", image: placeholderImg("Red Bow Earring")},
+  {id:61, name:"Reflecting round earrings", sku:"BD0061", price:167.20, category:"jewelry", image: placeholderImg("Reflecting Earrings")},
+  {id:62, name:"Snitch Bracelet", sku:"BD0062", price:41.80, category:"jewelry", image: placeholderImg("Snitch Bracelet")},
+  {id:63, name:"Hollow Pearl Flower Earrings", sku:"BD0063", price:89.30, category:"jewelry", image: placeholderImg("Hollow Pearl Earrings")},
+  {id:64, name:"Golden Bow Earrings", sku:"BD0064", price:76.00, category:"jewelry", image: placeholderImg("Golden Bow Earrings")},
+  {id:65, name:"White/Blue Heart Bear earrings", sku:"BD0065", price:104.50, category:"jewelry", image: placeholderImg("Heart Bear Earrings")},
+  {id:66, name:"Red Bow Medium Earrings", sku:"BD0066", price:96.90, category:"jewelry", image: placeholderImg("Red Bow Earrings")},
+  {id:67, name:"Unmatched Earrings", sku:"BD0067", price:96.90, category:"jewelry", image: placeholderImg("Unmatched Earrings")},
+  {id:68, name:"Unmatched Earrings Cloud/Bear", sku:"BD0068", price:112.10, category:"jewelry", image: placeholderImg("Unmatched Cloud Bear")},
+  {id:69, name:"Pearl String Necklace", sku:"BD0069", price:121.60, category:"jewelry", image: placeholderImg("Pearl String Necklace")},
+  {id:70, name:"Butterfly pearl necklace", sku:"BD0070", price:129.20, category:"jewelry", image: placeholderImg("Butterfly Pearl Necklace")},
+  {id:71, name:"Plus Rabbit Pink Pendant", sku:"BD0071", price:91.20, category:"jewelry", image: placeholderImg("Plus Rabbit Pendant")},
+  {id:72, name:"Big Solid Blue Star Hair Claw", sku:"BD0072", price:34.20, category:"hair", image: placeholderImg("Big Blue Star Claw")},
+  {id:73, name:"Big Transparent Blue Star Hair Claw", sku:"BD0073", price:34.20, category:"hair", image: placeholderImg("Transparent Blue Star Claw")},
+  {id:74, name:"Silver Bow Necklace", sku:"BD0074", price:53.20, category:"jewelry", image: placeholderImg("Silver Bow Necklace")},
+  {id:75, name:"Star Moon Necklace Bluish", sku:"BD0075", price:55.10, category:"jewelry", image: placeholderImg("Star Moon Necklace")},
+  {id:76, name:"Star Shaped Tic-tac", sku:"BD0076", price:5.70, category:"accessories", image: placeholderImg("Star Tic-tac")},
+  {id:77, name:"Red/Black Velvet Hair Clip", sku:"BD0077", price:15.20, category:"hair", image: placeholderImg("Velvet Hair Clip")},
+  {id:78, name:"Big Solid Blue Bow Hair Claw", sku:"BD0078", price:34.20, category:"hair", image: placeholderImg("Big Blue Bow Claw")},
+  {id:79, name:"Big Transparent Blue Bow Hair Claw", sku:"BD0079", price:34.20, category:"hair", image: placeholderImg("Transparent Blue Bow Claw")},
+  {id:80, name:"Plush Bear Hair pin", sku:"BD0080", price:28.50, category:"hair", image: placeholderImg("Plush Bear Hair Pin")},
+  {id:81, name:"Velvet Mini Claw Red/Black", sku:"BD0081", price:20.90, category:"hair", image: placeholderImg("Velvet Mini Claw")},
+  {id:82, name:"Star Necklace", sku:"BD0082", price:114.00, category:"jewelry", image: placeholderImg("Star Necklace")},
+  {id:83, name:"3 pcs set Necklace", sku:"BD0083", price:138.70, category:"jewelry", image: placeholderImg("3pcs Necklace")},
+  {id:84, name:"Double Starfish 5-Piece Set", sku:"BD0084", price:32.30, category:"jewelry", image: placeholderImg("Double Starfish Set")},
+  {id:85, name:"Bear Barrettes 5-Piece Set", sku:"BD0085", price:32.30, category:"hair", image: placeholderImg("Bear Barrettes Set")},
+  {id:86, name:"Retro Starfish 5-Piece Set", sku:"BD0086", price:45.60, category:"hair", image: placeholderImg("Retro Starfish Set")},
+  {id:87, name:"Bears 6-Piece Set", sku:"BD0087", price:36.10, category:"hair", image: placeholderImg("Bears 6-Piece Set")},
+  {id:88, name:"4-Piece Set (Multi Flower Color)", sku:"BD0088", price:43.70, category:"hair", image: placeholderImg("4-Piece Flower Set")},
+  {id:89, name:"Starfish Barrettes 8-Piece Set", sku:"BD0089", price:38.00, category:"hair", image: placeholderImg("Starfish Barrettes Set")},
+  {id:90, name:"Mini hair claws (50 Pcs/CAN)", sku:"BD0090", price:5.70, category:"hair", image: placeholderImg("Mini Hair Claws")},
+  {id:91, name:"Korean matte hair claw small", sku:"BD0091", price:38.00, category:"hair", image: placeholderImg("Korean Matte Hair Claw")},
+  {id:92, name:"Silicone Jewelry Case", sku:"BD0092", price:378.10, category:"accessories", image: placeholderImg("Silicone Jewelry Case")},
+  {id:93, name:"Facial Headband/wristband set", sku:"BD0093", price:338.20, category:"accessories", image: placeholderImg("Facial Headband Set")},
+  {id:94, name:"Frosted Pastel Hair Claw Blue/pink", sku:"BD0094", price:169.10, category:"hair", image: placeholderImg("Frosted Pastel Hair Claw")},
+  {id:95, name:"Butterfly Hair Claw", sku:"BD0095", price:55.10, category:"hair", image: placeholderImg("Butterfly Hair Claw")},
+  {id:96, name:"Double square rhinestone hair pin", sku:"BD0096", price:76.00, category:"hair", image: placeholderImg("Double Rhinestone Pin")},
+  {id:97, name:"Korean matt hair claw small- size", sku:"BD0097", price:30.40, category:"hair", image: placeholderImg("Korean Matte Hair Claw Small")},
+  {id:98, name:"Korean Matt Hair clip Pink", sku:"BD0098", price:93.10, category:"hair", image: placeholderImg("Korean Matt Hair Clip Pink")},
+  {id:99, name:"Korean Matt Hair claw big", sku:"BD0099", price:70.30, category:"hair", image: placeholderImg("Korean Matt Hair Claw Big")},
+  {id:100, name:"Pearl hair pin", sku:"BD0100", price:38.00, category:"hair", image: placeholderImg("Pearl Hair Pin")},
+  {id:101, name:"Stickers", sku:"BD0101", price:19.00, category:"stationery", image: placeholderImg("Stickers")},
+  {id:102, name:"Pendant Charms (assorted)", sku:"BD0102", price:3.80, category:"accessories", image: placeholderImg("Pendant Charms")}
+];
+/* ------------------------------------------------------------------ */
+/* Product rendering + cart logic (no external libs) */
+let cart = [];
 
-    function updateCartButton() {
-      const cartButton = document.getElementById('cart-button');
-      const cartCount = document.getElementById('cart-count');
-      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-      if (totalItems > 0) {
-        cartButton.style.display = 'inline-block';
-        cartCount.textContent = totalItems;
-      } else {
-        cartButton.style.display = 'none';
-      }
-    }
+function formatPrice(p){ return Number(p).toFixed(2); }
 
-    function showNotification(msg) {
-      const notification = document.createElement('div');
-      notification.style.cssText = 'position:fixed;top:100px;right:20px;background:linear-gradient(45deg,#28a745,#20c997);color:white;padding:15px 25px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.2);z-index:1000;font-weight:bold';
-      notification.textContent = msg;
-      document.body.appendChild(notification);
-      setTimeout(() => {
-        if (notification.parentNode) {
-          notification.parentNode.removeChild(notification);
-        }
-      }, 2000);
-    }
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
-    function showCart() {
-      const modal = document.createElement('div');
-      modal.className = 'modal-overlay';
-      let total = 0;
-      cart.forEach(item => {
-        total += item.price * item.quantity;
-      });
-      modal.innerHTML = `
-        <div class="modal-content" style="max-width:420px;">
-          <h2>Your Cart</h2>
-          <div>
-            ${cart.length === 0
-              ? `<p>Your cart is empty.</p>`
-              : `<ul style="text-align:left;">
-                  ${cart.map(item => `<li>${item.name} x${item.quantity}</li>`).join('')}
-                </ul>
-                <div class="cart-total"><b>Total:</b> ₹${total}</div>
-                <button class="btn" id="whatsappCheckout">Checkout via WhatsApp</button>`}
-          </div>
-          <div class="modal-buttons">
-            <button class="btn" style="background:#6c757d;" id="closeCartBtn">Close</button>
-          </div>
-        </div>
-      `;
-      document.body.appendChild(modal);
+function productCardHtml(p){
+  return `
+    <div class="product-card" data-sku="${p.sku}">
+      <img src="${p.image}" alt="${escapeHtml(p.name)}" class="product-image">
+      <div class="product-name">${escapeHtml(p.name)}</div>
+      <div class="sku">${escapeHtml(p.sku)}</div>
+      <div class="price">₹${formatPrice(p.price)}</div>
+      <button class="add-btn" data-sku="${p.sku}">Add to cart</button>
+    </div>
+  `;
+}
 
-      document.getElementById('closeCartBtn').onclick = () => {
-        document.body.removeChild(modal);
-      };
-      if (cart.length > 0) {
-        document.getElementById('whatsappCheckout').onclick = () => {
-          const msg = "Hi! I want to buy:\n" +
-            cart.map(item => `- ${item.name} x${item.quantity}`).join("\n") +
-            `\nTotal: ₹${total}`;
-          window.open("https://wa.me/919999835471?text=" + encodeURIComponent(msg), "_blank");
-        };
-      }
-    }
+function renderAllProducts(list){
+  const grid = document.getElementById('product-grid');
+  grid.innerHTML = list.map(p=>productCardHtml(p)).join('');
+  // Attach handlers via delegation globally
+}
 
-    // Hook up Add to Cart buttons
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const sku = this.getAttribute('data-sku');
-          const name = this.getAttribute('data-name');
-          const price = parseFloat(this.getAttribute('data-price'));
-          addToCart(sku, name, price);
-        });
-      });
+function renderFeatured(){
+  const featuredSkus = ["BD0001","BD0011","BD0019","BD0025","BD0035","BD0092"];
+  const featured = products.filter(p=>featuredSkus.includes(p.sku));
+  const el = document.getElementById('featured-products');
+  el.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px">${featured.map(p=>productCardHtml(p)).join('')}</div>`;
+}
 
-      // Hook up shop-now to scroll
-      document.querySelectorAll('.shop-now-btn').forEach(btn => {
-        btn.addEventListener('click', scrollToCategories);
-      });
-    });
+/* event delegation for add-to-cart */
+document.addEventListener('click', function(e){
+  const addBtn = e.target.closest('.add-btn');
+  if(addBtn){
+    const sku = addBtn.getAttribute('data-sku');
+    addToCartBySku(sku);
+    return;
+  }
+  // tabs
+  const tab = e.target.closest('.tab');
+  if(tab && tab.dataset.cat){
+    filterBy(tab.dataset.cat);
+    return;
+  }
+});
 
-    function scrollToCategories() {
-      const categoriesDiv = document.getElementById('categories');
-      if (categoriesDiv) {
-        categoriesDiv.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+function addToCartBySku(sku){
+  const p = products.find(x=>x.sku===sku);
+  if(!p){ alert('Product not found'); return; }
+  const existing = cart.find(i=>i.sku===sku);
+  if(existing) existing.quantity += 1;
+  else cart.push({sku:p.sku,name:p.name,price:p.price,quantity:1});
+  updateCartCount();
+  showToast(`${p.name} added to cart`);
+}
 
-    function scrollToCategorySection(sectionId) {
-      const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
-      }
-    }
+function updateCartCount(){
+  const count = cart.reduce((s,i)=>s+i.quantity,0);
+  const btn = document.getElementById('cart-btn');
+  const span = document.getElementById('cart-count');
+  span.textContent = count;
+  btn.style.display = count>0 ? 'inline-block' : 'none';
+}
 
-    // Lucky Scoop builder
-    function openLuckyScoopBuilder(scoops = 1, price = 399) {
-      const modal = document.createElement('div');
-      modal.className = 'modal-overlay';
-      const categories = ['Stationery', 'Jewelry', 'Hair Accessories', 'Bags & Pouches', 'Diaries', 'Stickers'];
-      const colors = ['Pink', 'Purple', 'Blue', 'Neutral'];
+function showToast(msg){
+  const n = document.createElement('div');
+  n.style.cssText='position:fixed;top:80px;right:20px;background:var(--pink1);color:#fff;padding:10px 14px;border-radius:10px;z-index:3000;font-weight:700';
+  n.textContent = msg;
+  document.body.appendChild(n);
+  setTimeout(()=> n.remove(),1600);
+}
 
-      let selectedColor = '';
-      let selectedCategories = [];
+function openCart(){
+  const overlay = document.createElement('div'); overlay.className='overlay';
+  const subtotal = cart.reduce((s,i)=>s + i.price*i.quantity,0);
+  let listHtml = '';
+  if(cart.length===0) listHtml = '<p>Your cart is empty.</p>';
+  else listHtml = `<ul style="text-align:left;padding-left:16px">${cart.map(it=>`<li>${escapeHtml(it.name)} x${it.quantity} — ₹${formatPrice(it.price*it.quantity)}</li>`).join('')}</ul><p><b>Subtotal:</b> ₹${formatPrice(subtotal)}</p>`;
+  overlay.innerHTML = `<div class="modal"><h3>Your Cart</h3>${listHtml}<div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button class="back-btn" id="closeCartBtn">Close</button>${cart.length>0?`<button class="add-btn" id="checkoutBtn">Checkout (Pay)</button>`:''}</div></div>`;
+  document.body.appendChild(overlay);
+  document.getElementById('closeCartBtn').onclick = ()=> overlay.remove();
+  const cb = document.getElementById('checkoutBtn');
+  if(cb) cb.onclick = ()=>{
+    const subtotal = cart.reduce((s,i)=>s + i.price*i.quantity,0);
+    // Try Razorpay first
+    const razor = 'https://razorpay.me/bobosdoodle';
+    // open razorpay in new tab and also prepare whatsapp fallback message
+    window.open(razor, '_blank');
+    // fallback message in case razorpay not loaded: we also open whatsapp with order summary
+    const msg = `Hi! I want to order:\n${cart.map(i=>`- ${i.name} x${i.quantity}`).join('\n')}\nSubtotal: ₹${formatPrice(subtotal)}`;
+    // small delay then open whatsapp in new tab (user can close if razorpay worked)
+    setTimeout(()=> window.open('https://wa.me/919999835471?text=' + encodeURIComponent(msg), '_blank'), 800);
+    overlay.remove();
+  };
+}
 
-      modal.innerHTML = `
-        <div class="modal-content">
-          <h2>🛍️ Build Your Lucky Scoop</h2>
-          <p><strong>${scoops} Scoop${scoops > 1 ? 's' : ''} - ₹${price}</strong></p>
-          <h3>Select Color Preference:</h3>
-          <div class="color-options">
-            ${colors.map(color => `<div class="color-option" data-color="${color}">${color}</div>`).join('')}
-          </div>
-          <h3>Select ${scoops} Categories:</h3>
-          <div class="category-chips">
-            ${categories.map(cat => `<div class="category-chip" data-category="${cat}">${cat}</div>`).join('')}
-          </div>
-          <div class="modal-buttons">
-            <button class="btn" id="orderBtn">Order Now</button>
-            <button class="btn" style="background: #6c757d;" id="closeBtn">Cancel</button>
-          </div>
-        </div>
-      `;
+/* filter */
+function filterBy(cat){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  const tab = document.querySelector(`.tab[data-cat="${cat}"]`);
+  if(tab) tab.classList.add('active');
+  if(cat==='all'){ renderAllProducts(products); return; }
+  const filtered = products.filter(p=> p.category===cat || p.subcategory===cat );
+  renderAllProducts(filtered);
+}
 
-      document.body.appendChild(modal);
+function scrollToProducts(){ document.getElementById('products').scrollIntoView({behavior:'smooth'}); }
 
-      modal.querySelectorAll('.color-option').forEach(el =>
-        el.addEventListener('click', function () {
-          modal.querySelectorAll('.color-option').forEach(o => o.classList.remove('selected'));
-          this.classList.add('selected');
-          selectedColor = this.dataset.color;
-        })
-      );
+/* Lucky scoop builder */
+function openLuckyScoopBuilder(scoops=1, price=399){
+  const overlay = document.createElement('div'); overlay.className='overlay';
+  overlay.innerHTML = `<div class="modal"><h3>🍧 Lucky Scoop — ${scoops} scoop(s) — ₹${price}</h3><p>Select ${scoops} categories:</p><div style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0"><button class="tab" data-cat="stationery">Stationery</button><button class="tab" data-cat="hair">Hair</button><button class="tab" data-cat="jewelry">Jewelry</button><button class="tab" data-cat="bags">Bags</button><button class="tab" data-cat="labubu">Labubu</button><button class="tab" data-cat="kuromi">Kuromi</button></div><div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px"><button class="back-btn" id="cancelScoop">Cancel</button><button class="add-btn" id="confirmScoop">Add Lucky Scoop</button></div></div>`;
+  document.body.appendChild(overlay);
+  const selected = new Set();
+  overlay.querySelectorAll('.tab').forEach(btn=>{
+    btn.onclick = ()=>{
+      const c = btn.getAttribute('data-cat');
+      if(selected.has(c)){ selected.delete(c); btn.classList.remove('active'); }
+      else if(selected.size < scoops){ selected.add(c); btn.classList.add('active'); }
+      else alert(`Please select only ${scoops} category${scoops>1?'ies':''}`);
+    };
+  });
+  overlay.querySelector('#cancelScoop').onclick = ()=> overlay.remove();
+  overlay.querySelector('#confirmScoop').onclick = ()=>{
+    if(selected.size !== scoops){ alert(`Select exactly ${scoops} category${scoops>1?'ies':''}`); return; }
+    const cats = Array.from(selected).join(', ');
+    const sku = 'SCOOP' + (Date.now()%10000);
+    cart.push({ sku, name: `${scoops}-Scoop Lucky Bundle (${cats})`, price: price, quantity:1 });
+    updateCartCount();
+    showToast('Lucky Scoop added to cart');
+    overlay.remove();
+  };
+}
 
-      modal.querySelectorAll('.category-chip').forEach(el =>
-        el.addEventListener('click', function () {
-          if (this.classList.contains('selected')) {
-            this.classList.remove('selected');
-            selectedCategories = selectedCategories.filter(c => c !== this.dataset.category);
-          } else if (selectedCategories.length < scoops) {
-            this.classList.add('selected');
-            selectedCategories.push(this.dataset.category);
-          } else {
-            alert(`You can only select ${scoops} category${scoops > 1 ? 'ies' : 'y'}!`);
-          }
-        })
-      );
+/* init */
+document.addEventListener('DOMContentLoaded', function(){
+  renderFeatured();
+  renderAllProducts(products);
+  updateCartCount();
+  // showHome convenience
+  window.showHome = ()=>{ window.scrollTo({top:0,behavior:'smooth'}); filterBy('all'); };
+  window.openLuckyScoopBuilder = openLuckyScoopBuilder;
+});
+</script>
+<!-- Toast + Cart system already included above -->
+<!-- No external JS or CSS required. Fully self-contained HTML file -->
 
-      modal.querySelector('#closeBtn').onclick = () => {
-        document.body.removeChild(modal);
-      };
+<script>
+// graceful fallback for broken image links
+document.addEventListener('error', function(e){
+  if(e.target.tagName==='IMG'){
+    e.target.src = placeholderImg('bobosdoodle');
+  }
+}, true);
+</script>
 
-      modal.querySelector('#orderBtn').onclick = () => {
-        if (!selectedColor) {
-          alert('Please select a color!');
-          return;
-        }
-        if (selectedCategories.length !== scoops) {
-          alert(`Please select exactly ${scoops} categories!`);
-          return;
-        }
+<!-- Small floating WhatsApp button -->
+<a href="https://wa.me/919999835471" target="_blank" style="position:fixed;bottom:90px;right:20px;background-color:#25d366;color:#fff;border-radius:50%;width:56px;height:56px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(0,0,0,0.3);font-size:26px;text-decoration:none;z-index:1000;">💬</a>
 
-        const summary = `Lucky Scoop Order\nScoops: ${scoops}, ₹${price}\nColor: ${selectedColor}\nCategories: ${selectedCategories.join(', ')}`;
+<!-- Bottom note -->
+<div style="text-align:center;color:#888;font-size:0.9rem;padding:10px 0;">
+  Designed with 💖 by bobosdoodle · Hosted on GitHub Pages
+</div>
 
-        if (confirm(summary + '\nProceed to Razorpay?\nCancel = Order via WhatsApp')) {
-          window.open('https://razorpay.me/bobosdoodle', '_blank');
-        } else {
-          const whatsappMsg = encodeURIComponent(`Hi! I'd like to order\n${summary}`);
-          window.open(`https://wa.me/919999835471?text=${whatsappMsg}`, '_blank');
-        }
-
-        document.body.removeChild(modal);
-      };
-    }
-  </script>
 </body>
 </html>
