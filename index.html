@@ -311,7 +311,7 @@ function openCart(){
     overlay.remove();
   };
 }
-
+<button class="nav-link button-like" onclick="openLuckyScoopBuilder()">Order Lucky Scoop Mystery Bundle</button>
 /* filter */
 function filterBy(cat){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -330,16 +330,17 @@ function openLuckyScoopBuilder() {
   overlay.className = 'overlay';
   overlay.innerHTML = `
     <div class="modal">
-      <h3>🍨 Lucky Scoop Mystery Bundle</h3>
-      <label>Number of scoops:
-        <select id="scoopCount" style="margin:8px 0; width:70%">
-          <option value="1">1 Scoop (₹399, ~3 items)</option>
-          <option value="2">2 Scoops (₹749, ~6 items)</option>
-          <option value="3">3 Scoops (₹999, ~9 items + gift)</option>
+      <h3>🍒 Lucky Scoop Mystery Bundle</h3>
+      <label>
+        Number of scoops: 
+        <select id="scoopCount">
+          <option value="1">1 Scoop (₹399)</option>
+          <option value="2">2 Scoops (₹749)</option>
+          <option value="3">3 Scoops (₹999)</option>
         </select>
       </label>
-      <p>Select <span id="chosenCount">1</span> categories:</p>
-      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:8px">
+      <p>Select <span id="chosen-count">1</span> category(ies):</p>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
         <button class="tab" data-cat="stationery">Stationery</button>
         <button class="tab" data-cat="hair">Hair</button>
         <button class="tab" data-cat="jewelry">Jewelry</button>
@@ -347,9 +348,9 @@ function openLuckyScoopBuilder() {
         <button class="tab" data-cat="labubu">Labubu</button>
         <button class="tab" data-cat="kuromi">Kuromi</button>
       </div>
-      <div style="margin-top:10px">
-        Preferred colour:
-        <select id="scoopColor" style="margin-left:12px;padding:5px;">
+      <div style="margin-top:15px;">
+        Colour preference: 
+        <select id="scoopColor">
           <option value="">Any</option>
           <option>Pink</option>
           <option>Purple</option>
@@ -358,11 +359,11 @@ function openLuckyScoopBuilder() {
           <option>Green</option>
         </select>
       </div>
-      <div style="margin-top:12px">
+      <div style="margin-top:14px;">
         Special request (optional):<br>
-        <input type="text" id="specialNote" style="width:92%;margin-top:5px;padding:7px;border-radius:7px;border:1px solid #eee" placeholder="Gift message, delivery note etc">
+        <input type="text" id="specialNote" style="width:95%;margin-top:5px;padding:7px;" placeholder="Gift wrap, message, etc.">
       </div>
-      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px">
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:15px;">
         <button class="back-btn" id="cancelScoop">Cancel</button>
         <button class="add-btn" id="confirmScoop">Add Lucky Scoop</button>
       </div>
@@ -374,10 +375,11 @@ function openLuckyScoopBuilder() {
   overlay.querySelector('#scoopCount').addEventListener('change', function() {
     scoopCount = Number(this.value);
     selected.clear();
-    overlay.querySelectorAll('.tab').forEach(btn=>btn.classList.remove('active'));
-    overlay.querySelector('#chosenCount').textContent = scoopCount;
+    overlay.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
+    overlay.querySelector('#chosen-count').textContent = scoopCount;
   });
-  overlay.querySelectorAll('.tab').forEach(btn=>{
+
+  overlay.querySelectorAll('.tab').forEach(btn => {
     btn.onclick = () => {
       const c = btn.getAttribute('data-cat');
       if(selected.has(c)){ selected.delete(c); btn.classList.remove('active'); }
@@ -393,24 +395,20 @@ function openLuckyScoopBuilder() {
     const cats = Array.from(selected).join(', ');
     const scoopColor = overlay.querySelector('#scoopColor').value;
     const specialNote = overlay.querySelector('#specialNote').value;
-    const price = scoopCount === 1 ? 399 : scoopCount === 2 ? 749 : 999;
+    let price = scoopCount === 1 ? 399 : scoopCount === 2 ? 749 : 999;
     const sku = 'SCOOP' + (Date.now()%10000);
     cart.push({
       sku,
-      name: `${scoopCount}-Scoop Lucky Bundle (${cats}${scoopColor ? ', '+scoopColor : ''}${specialNote ? ', Note: '+specialNote : ''})`,
-      price: price, quantity:1
+      name: `${scoopCount}-Scoop Lucky Bundle (${cats}${scoopColor ? ', Colour: ' + scoopColor : ''}${specialNote ? ', Note: ' + specialNote : ''})`,
+      price: price,
+      quantity: 1
     });
     updateCartCount();
     showToast('Lucky Scoop added to cart');
     overlay.remove();
   };
-}
-}
 
-}
-  <button class="nav-link button-like" onclick="openLuckyScoopBuilder()">Order Lucky Scoop Mystery Bundle</button>
-
-
+  
 /* init */
 document.addEventListener('DOMContentLoaded', function(){
   renderFeatured();
