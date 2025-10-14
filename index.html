@@ -338,6 +338,21 @@ function openLuckyScoopBuilder(scoops=1, price=399){
       else alert(`Please select only ${scoops} category${scoops>1?'ies':''}`);
     };
   });
+
+  <section id="lucky-scoop-info">
+  <h3>🎉 What's in the Lucky Scoop?</h3>
+  <ul>
+    <li><b>1 Scoop (₹399)</b>: 6+ mystery items</li>
+    <li><b>2 Scoops (₹699)</b>: 10+ items — choose 2 categories & color</li>
+    <li><b>3 Scoops (₹999)</b>: 15+ items + free gift — choose 3 categories & color</li>
+  </ul>
+  <div style="text-align:center;">
+    <button class="btn" onclick="openLuckyScoopBuilder(1,399)">1 Scoop</button>
+    <button class="btn" onclick="openLuckyScoopBuilder(2,699)">2 Scoops</button>
+    <button class="btn" onclick="openLuckyScoopBuilder(3,999)">3 Scoops</button>
+  </div>
+</section>
+
   overlay.querySelector('#cancelScoop').onclick = ()=> overlay.remove();
   overlay.querySelector('#confirmScoop').onclick = ()=>{
     if(selected.size !== scoops){ alert(`Select exactly ${scoops} category${scoops>1?'ies':''}`); return; }
@@ -349,6 +364,8 @@ function openLuckyScoopBuilder(scoops=1, price=399){
     overlay.remove();
   };
 }
+
+  
 
 /* init */
 document.addEventListener('DOMContentLoaded', function(){
@@ -379,6 +396,29 @@ document.addEventListener('error', function(e){
 <div style="text-align:center;color:#888;font-size:0.9rem;padding:10px 0;">
   Designed with 💖 by bobosdoodle-slay the cute way
 </div>
+<script>
+// Category filter logic
+document.addEventListener('DOMContentLoaded', () => {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const productCards = document.querySelectorAll('.product-card');
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const category = btn.getAttribute('data-category');
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      productCards.forEach(card => {
+        if (category === 'all' || card.classList.contains(category)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+</script>
 
 </body>
 </html>
